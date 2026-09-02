@@ -5,10 +5,14 @@
 import INDEX from "./index-data.json";
 
 const PRODUCT = "chronolock";
+const EXAMPLE_PAYLOAD = {
+  "geo": "Indiana"
+};
+
 const VERSION = "0.1.0";
 const MOTTO = "Meaning is not only shaped by language, but by when language arrives.";
 const HOST = "https://chronolock-download-tracker.vibelock.workers.dev";
-const SKILL = "---\nname: ChronoLock\ndescription: Use when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler. Hosted /v1 via this Worker or aziel-runtime. Author Aziel Eliab.\n---\n\n# ChronoLock\n\nMeaning is not only shaped by language, but by when language arrives.\n\nAuthor: **Aziel Eliab**.\n\nUse when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler.\n\nAlways send `User-Agent: Mozilla/5.0`. Cloudflare Workers may 403 an empty agent.\n\n## Endpoints (this Worker)\n\nHost: `https://chronolock-download-tracker.vibelock.workers.dev`\n\n| Method | Path | What |\n|--------|------|------|\n| GET | `/v1/health` | Liveness. Does not increment downloads. |\n| GET | `/v1/skill` | This markdown. Does not increment downloads. |\n| GET | `/v1/anchors` | List Top-30 geographic anchors. |\n| POST | `/v1/advisory` | One advisory for a last-known geo. |\n\nOpenAPI: `https://chronolock-download-tracker.vibelock.workers.dev/openapi.json`\n\nCatalog OpenAPI: `https://aziel-runtime.vibelock.workers.dev/openapi.json`\n\nMCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n\nCatalog aliases under `/p/chronolock/\u2026`.\n\n## How to call (Mozilla/5.0)\n\n```bash\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health\ncurl -s -A 'Mozilla/5.0' -X POST https://chronolock-download-tracker.vibelock.workers.dev/v1/advisory \\\n  -H 'content-type: application/json' \\\n  -d '{\"geo\":\"Indiana\",\"language\":\"English\"}'\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill\n```\n\nGrok: import the catalog OpenAPI as a custom tool. ChatGPT: GPT Actions. Venice: HTTP tools.\n\n## Local (three steps)\n\n```bash\ncurl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash\nchronolock ui\nchronolock doctor\n```\n\nThen open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. Optional Import JSON, Export JSON, Verify (plain words). Simple view is the default. `staticclock` is a deprecated alias; ChronoLock is the public name.\n\n## Honest banner\n\nTHIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30\u201310:30 local). Public name of the Chronolect Layer (formerly prototyped as StaticClock). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.\n\nApache-2.0 (or the repo LICENSE). Forks are welcome and always allowed.\n";
+const SKILL = "---\nname: ChronoLock\ndescription: Use when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler. Hosted /v1 via this Worker or aziel-runtime. Author Aziel Eliab.\n---\n\n# ChronoLock\n\nMeaning is not only shaped by language, but by when language arrives.\n\nAuthor: **Aziel Eliab**.\n\nUse when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler.\n\nAlways send `User-Agent: Mozilla/5.0`. Cloudflare Workers may 403 an empty agent.\n\n## Endpoints (this Worker)\n\nHost: `https://chronolock-download-tracker.vibelock.workers.dev`\n\n| Method | Path | What |\n|--------|------|------|\n| GET | `/v1/health` | Liveness. Does not increment downloads. |\n| GET | `/v1/skill` | This markdown. Does not increment downloads. |\n| GET | `/v1/anchors` | List Top-30 geographic anchors. |\n| POST | `/v1/advisory` | One advisory for a last-known geo. |\n\nOpenAPI: `https://chronolock-download-tracker.vibelock.workers.dev/openapi.json`\n\nCatalog OpenAPI: `https://aziel-runtime.vibelock.workers.dev/openapi.json`\n\nMCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n\nCatalog aliases under `/p/chronolock/\u2026`.\n\n## How to call (Mozilla/5.0)\n\n```bash\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health\ncurl -s -A 'Mozilla/5.0' -X POST https://chronolock-download-tracker.vibelock.workers.dev/v1/advisory \\\n  -H 'content-type: application/json' \\\n  -d '{\"geo\":\"Indiana\",\"language\":\"English\"}'\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill\n```\n\nGrok: import the catalog OpenAPI as a custom tool. ChatGPT: GPT Actions. Venice: HTTP tools.\n\n## Local (three steps)\n\n```bash\ncurl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash\nchronolock ui\nchronolock doctor\n```\n\nThen open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. Optional Import JSON, Export JSON, Verify (plain words). Simple view is the default. `staticclock` is a deprecated alias; ChronoLock is the public name.\n\n## Honest banner\n\nTHIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30\u201310:30 local). Public name of the Chronolect Layer (formerly prototyped as StaticClock). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.\n\nApache-2.0 (or the repo LICENSE). Forks are welcome and always allowed.\n\n## Catalog + local UI\n\nAuthor: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 local. Distinct from TemporalLock. Not a scheduler.\n\n- Catalog product: https://aziel-runtime.vibelock.workers.dev/p/chronolock/\n- Catalog OpenAPI: https://aziel-runtime.vibelock.workers.dev/openapi.json\n- Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n- This Worker skill: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/skill`\n- This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json\n- Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`\n\nLocal UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`.\n\nGrok: import catalog or Worker OpenAPI as a custom tool. ChatGPT: GPT Actions. Venice: HTTP tools.\n";
 
 const OUTPUT_FIELDS = ["geo_location_chosen", "optimal_time", "optimal_date", "primary_language", "dialect_section"];
 const DEFAULT_ANCHOR = "United States";
@@ -275,6 +279,7 @@ function openapiSpec() {
     servers: [{ url: HOST }],
     paths: {
       
+            "/v1/example": { get: { operationId: "chronolockExample", summary: "Sample JSON payload. Does not increment downloads.", responses: { "200": { description: "OK" } } } },
       "/v1/skill": {
         get: {
           operationId: "chronolock_skill",
@@ -351,8 +356,18 @@ export async function handleRuntimeApi(request, url) {
   const isApi = path === "/v1" || path.startsWith("/v1/") || path === "/openapi.json" || path === "/ai";
   if (!isApi) return null;
   if (path === "/v1/health" && request.method === "GET") {
-    return json({ ok: true, product: PRODUCT, version: VERSION, motto: MOTTO, note: "Advisory only. Not a scheduler, not targeting, not virality." });
+    return json({ ok: true, author: "Aziel Eliab", product: PRODUCT, version: VERSION, motto: MOTTO, note: "Advisory only. Not a scheduler, not targeting, not virality." });
   }
+  if ((path === "/v1/example" || path === "/v1/example/") && (request.method === "GET" || request.method === "HEAD")) {
+    return json({
+      ok: true,
+      product: PRODUCT,
+      author: "Aziel Eliab",
+      example: EXAMPLE_PAYLOAD,
+      note: "Sample payload only. Does not increment downloads.",
+    });
+  }
+
   if (path === "/openapi.json" && request.method === "GET") return json(openapiSpec());
   if (path === "/ai" && request.method === "GET") {
     return new Response(aiHtml(), { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders() } });

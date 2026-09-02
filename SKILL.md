@@ -47,3 +47,18 @@ Then open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. 
 
 Counted download (gzip HTTP 200, no 302): https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz
 GitHub: https://github.com/AzielEliab/chronolock
+
+## Catalog + local UI
+
+Author: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 local. Distinct from TemporalLock. Not a scheduler.
+
+- Catalog product: https://aziel-runtime.vibelock.workers.dev/p/chronolock/
+- Catalog OpenAPI: https://aziel-runtime.vibelock.workers.dev/openapi.json
+- Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`
+- This Worker skill: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/skill`
+- This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json
+- Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`
+
+Local UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`.
+
+Grok: import catalog or Worker OpenAPI as a custom tool. ChatGPT: GPT Actions. Venice: HTTP tools.
