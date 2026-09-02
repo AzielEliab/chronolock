@@ -8,6 +8,8 @@ const PRODUCT = "chronolock";
 const VERSION = "0.1.0";
 const MOTTO = "Meaning is not only shaped by language, but by when language arrives.";
 const HOST = "https://chronolock-download-tracker.vibelock.workers.dev";
+const SKILL = "---\nname: ChronoLock\ndescription: Use when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler. Hosted /v1 via this Worker or aziel-runtime. Author Aziel Eliab.\n---\n\n# ChronoLock\n\nMeaning is not only shaped by language, but by when language arrives.\n\nAuthor: **Aziel Eliab**.\n\nUse when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler.\n\nAlways send `User-Agent: Mozilla/5.0`. Cloudflare Workers may 403 an empty agent.\n\n## Endpoints (this Worker)\n\nHost: `https://chronolock-download-tracker.vibelock.workers.dev`\n\n| Method | Path | What |\n|--------|------|------|\n| GET | `/v1/health` | Liveness. Does not increment downloads. |\n| GET | `/v1/skill` | This markdown. Does not increment downloads. |\n| GET | `/v1/anchors` | List Top-30 geographic anchors. |\n| POST | `/v1/advisory` | One advisory for a last-known geo. |\n\nOpenAPI: `https://chronolock-download-tracker.vibelock.workers.dev/openapi.json`\n\nCatalog OpenAPI: `https://aziel-runtime.vibelock.workers.dev/openapi.json`\n\nMCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n\nCatalog aliases under `/p/chronolock/\u2026`.\n\n## How to call (Mozilla/5.0)\n\n```bash\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health\ncurl -s -A 'Mozilla/5.0' -X POST https://chronolock-download-tracker.vibelock.workers.dev/v1/advisory \\\n  -H 'content-type: application/json' \\\n  -d '{\"geo\":\"Indiana\",\"language\":\"English\"}'\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill\n```\n\nGrok: import the catalog OpenAPI as a custom tool. ChatGPT: GPT Actions. Venice: HTTP tools.\n\n## Local (after one-click install)\n\n```bash\ncurl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash\nchronolock ui\n```\n\nThen open http://127.0.0.1:8851 (this computer only).\n\n## Honest banner\n\nTHIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30\u201310:30 local). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.\n\nApache-2.0 (or the repo LICENSE). Forks are welcome and always allowed.\n";
+
 const OUTPUT_FIELDS = ["geo_location_chosen", "optimal_time", "optimal_date", "primary_language", "dialect_section"];
 const DEFAULT_ANCHOR = "United States";
 const DEFAULT_WINDOW = ["08:30", "10:30"];
@@ -272,7 +274,15 @@ function openapiSpec() {
     },
     servers: [{ url: HOST }],
     paths: {
-      "/v1/health": {
+      
+      "/v1/skill": {
+        get: {
+          operationId: "chronolock_skill",
+          summary: "Return skill markdown. Does not increment download KV.",
+          responses: { "200": { description: "markdown" } },
+        },
+      },
+"/v1/health": {
         get: { operationId: "health", summary: "Liveness", responses: { "200": { description: "ok", content: { "application/json": { schema: { type: "object" } } } } } },
       },
       "/v1/anchors": {
@@ -346,6 +356,12 @@ export async function handleRuntimeApi(request, url) {
   if (path === "/openapi.json" && request.method === "GET") return json(openapiSpec());
   if (path === "/ai" && request.method === "GET") {
     return new Response(aiHtml(), { headers: { "Content-Type": "text/html; charset=utf-8", ...corsHeaders() } });
+  }
+  if (path === "/v1/skill" && request.method === "GET") {
+    return new Response(SKILL, {
+      status: 200,
+      headers: { "Content-Type": "text/markdown; charset=utf-8", "Cache-Control": "private, no-store", ...corsHeaders() },
+    });
   }
   if (path === "/v1/anchors" && request.method === "GET") return json(listAnchors());
   if (path === "/v1/advisory" && request.method === "POST") {

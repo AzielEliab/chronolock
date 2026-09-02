@@ -38,6 +38,34 @@ python -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 chronolock ui
 ```
 
+
+## One-click install
+
+```bash
+curl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash
+```
+
+The script curls the **counted** tarball from this project's Worker
+(`/download`, User-Agent `Mozilla/5.0`), extracts, makes a venv, and
+`pip install -e .`. Then run `chronolock ui`.
+
+Or tap **Download** / **One-click install** on the Worker homepage:
+https://chronolock-download-tracker.vibelock.workers.dev/
+
+## Counted download (Cloudflare Worker)
+
+**This is the counted download.** GitHub releases exist as a mirror.
+The Worker serves the gzip itself (HTTP 200, no 302 to GitHub).
+
+- Homepage: [https://chronolock-download-tracker.vibelock.workers.dev/](https://chronolock-download-tracker.vibelock.workers.dev/)
+- Direct tarball: [chronolock-0.1.0.tar.gz](https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz)
+- One-click install: [https://chronolock-download-tracker.vibelock.workers.dev/install.sh](https://chronolock-download-tracker.vibelock.workers.dev/install.sh)
+- Skill: [https://chronolock-download-tracker.vibelock.workers.dev/v1/skill](https://chronolock-download-tracker.vibelock.workers.dev/v1/skill)
+- OpenAPI: [https://chronolock-download-tracker.vibelock.workers.dev/openapi.json](https://chronolock-download-tracker.vibelock.workers.dev/openapi.json)
+- GitHub: [https://github.com/AzielEliab/chronolock](https://github.com/AzielEliab/chronolock)
+
+Isolated counter: Worker `chronolock-download-tracker`, KV `CHRONOLOCK_DOWNLOADS`. `/v1` does not increment downloads.
+
 Open http://127.0.0.1:8851 (loopback only). No CDN, no telemetry.
 Port 8765 remains StaticClock.
 
