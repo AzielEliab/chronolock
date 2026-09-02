@@ -176,6 +176,16 @@ Offline. No network. No sqlite. No `.chronolock` store.
 Not a scheduler. Not analytics. Not user-profiling. Not influence
 engineering. Does not change wording. Timing advice only.
 
+## Cite this
+
+Aziel Eliab. ChronoLock. https://github.com/AzielEliab/chronolock. https://chronolock-download-tracker.vibelock.workers.dev.
+
+- Catalog: https://aziel-runtime.vibelock.workers.dev/
+- Worker homepage: https://chronolock-download-tracker.vibelock.workers.dev/
+- Counted download (gzip HTTP 200, no 302): https://chronolock-download-tracker.vibelock.workers.dev/download
+- GitHub: https://github.com/AzielEliab/chronolock
+- Citation JSON: https://chronolock-download-tracker.vibelock.workers.dev/cite.json
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE). Copyright 2026 Aziel Eliab.
