@@ -1,12 +1,15 @@
 """Command-line interface for ChronoLock.
 
     chronolock version
+    chronolock doctor
     chronolock anchors
     chronolock advise --geo "United States"
     chronolock advise --geo "Indiana"
     chronolock advise --geo "United States" --json
     chronolock stagger --geo "United States" --geo "Japan"
     chronolock zones
+    chronolock import FILE.json
+    chronolock export FILE.json
     chronolock ui
     chronolock serve
 
@@ -101,13 +104,13 @@ def _build_parser() -> argparse.ArgumentParser:
     p_serve.add_argument("--port", type=int, default=8851, help="Port (default 8851).")
 
 
-    p_doc = sub.add_parser("doctor", help="Self-check. No network, no telemetry.")
+    p_doc = sub.add_parser("doctor", help="Self-check in plain words. No network, no telemetry.")
     p_doc.add_argument("--json", action="store_true", dest="as_json", help="Print doctor results as JSON.")
 
-    p_imp = sub.add_parser("import", help="Import a JSON document.")
+    p_imp = sub.add_parser("import", help="Import a JSON document (process memory only; no hidden store).")
     p_imp.add_argument("path")
 
-    p_exp = sub.add_parser("export", help="Export a JSON document.")
+    p_exp = sub.add_parser("export", help="Export a JSON document the caller named.")
     p_exp.add_argument("path")
 
     return parser

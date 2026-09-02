@@ -45,6 +45,25 @@ hr.rule {
   border-top: 1px solid var(--rule);
   margin: 1.5rem 0;
 }
+.view-toggle {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+}
+button.view {
+  appearance: none;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+}
+button.view.on {
+  background: var(--ink);
+  color: var(--paper);
+}
+body.simple .advanced-only { display: none; }
 label {
   display: block;
   font-size: 0.92rem;
@@ -89,6 +108,32 @@ button.advise {
 }
 button.advise:hover { background: var(--mark); border-color: var(--mark); }
 button.advise:disabled { opacity: 0.5; cursor: wait; }
+.row.io {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+.row.io label { margin: 0; }
+.row.io button {
+  appearance: none;
+  border: 1px solid var(--ink);
+  background: var(--panel);
+  color: var(--ink);
+  font: inherit;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+.kid {
+  margin: 1rem 0 0.35rem;
+  font-size: 1.05rem;
+}
+.verify-line {
+  margin: 0 0 1rem;
+  color: var(--ok);
+  font-size: 0.95rem;
+}
 .output {
   margin-top: 1.75rem;
   border: 1px solid var(--ink);

@@ -1,8 +1,9 @@
 """Local ChronoLock UI. Bind 127.0.0.1 only.
 
-Last-known-geo input, Top-30 dropdown, five output fields, read-only
-timezone panel. Self-contained CSS. No CDN. No memory of past advisories.
-Each /api/advise is one moment, then forget.
+One obvious page: type a place, tap Advise. Simple view is the default.
+Import / Export JSON and Verify (plain words). Advanced view shows the
+Top-30 list and timezone table. Self-contained CSS. No CDN. No memory of
+past advisories. Each /api/advise is one moment, then forget.
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ MIME = {
     ".css": "text/css; charset=utf-8",
     ".js": "application/javascript; charset=utf-8",
 }
+MAX_BODY = 65_536
 
 
 def _web_bytes(name: str) -> bytes:
@@ -64,6 +66,11 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/api/zones":
             self._json(200, list_timezones())
             return
+        if path == "/api/doctor":
+            from chronolock.doctor import collect_results
+
+            self._json(200, collect_results())
+            return
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:  # noqa: N802
@@ -71,7 +78,14 @@ class Handler(BaseHTTPRequestHandler):
         if path != "/api/advise":
             self._json(404, {"error": "not found"})
             return
-        length = int(self.headers.get("Content-Length") or "0")
+        try:
+            length = int(self.headers.get("Content-Length") or "0")
+        except ValueError:
+            self._json(400, {"error": "JSON body required"})
+            return
+        if length > MAX_BODY:
+            self._json(413, {"error": "body too large"})
+            return
         raw = self.rfile.read(length) if length else b"{}"
         try:
             payload = json.loads(raw.decode("utf-8") or "{}")
@@ -100,7 +114,10 @@ def make_server(host: str = "127.0.0.1", port: int = 8851) -> ThreadingHTTPServe
 def serve(host: str = "127.0.0.1", port: int = 8851) -> None:
     httpd = make_server(host, port)
     bound_host, bound_port = httpd.server_address[:2]
-    print(f"ChronoLock UI http://{bound_host}:{bound_port} (loopback only; no memory of advisories)")
+    print(
+        f"ChronoLock UI http://{bound_host}:{bound_port} "
+        "(loopback only; simple view; no memory of advisories)"
+    )
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

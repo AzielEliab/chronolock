@@ -19,9 +19,11 @@ Python 3.10+. Core is stdlib only (`zoneinfo`, `secrets`, `json`,
 
 ## Ground rules
 
-1. **No persistence.** Do not add sqlite, a `.chronolock` store, or a
-   log of past advisories. Session state lives in memory and dies on
-   `forget()`.
+1. **No persistence.** Do not add sqlite, a `.chronolock` store, a
+   `.chronolock-state.json`, or a log of past advisories. Session state
+   lives in memory and dies on `forget()`. `import` / `export` hold the
+   last JSON document in process memory only; they write only the file
+   the caller named.
 2. **No user identification.** Last-known geo is a string, not a profile.
 3. **No targeting, no virality optimization, no engagement metrics.**
    Do not add ML, A/B, reach scores, or outcome learning.
@@ -44,7 +46,9 @@ Python 3.10+. Core is stdlib only (`zoneinfo`, `secrets`, `json`,
 - Five-basket shake: `chronolock/polarize.py`
 - Session / forget: `chronolock/engine.py`
 - CLI: `chronolock/cli.py` (`staticclock` is a deprecated alias)
-- Local UI: `chronolock/ui.py`, `chronolock/web/`
+- Local UI: `chronolock/ui.py`, `chronolock/web/` (simple view default; Import / Export JSON; Verify in plain words)
+- Doctor: `chronolock/doctor.py` (plain words; no network)
+- JSON import/export: `chronolock/jsonio.py` (no hidden store)
 
 ## License of contributions
 

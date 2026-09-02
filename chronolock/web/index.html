@@ -6,30 +6,35 @@
   <title>ChronoLock — Chronolect Layer</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body class="simple">
   <header>
     <div class="tag">ChronoLock · v0.1.0 · 127.0.0.1:8851</div>
     <h1>When should this be released so it is read, not reacted to?</h1>
     <p class="lede">
-      ChronoLock. Time-of-release is a semantic modifier. Temporal Neutral
-      Window <strong>08:30–10:30</strong> local. Advisory only — not a scheduler,
-      not targeting, not virality, not analytics. Does not change wording.
-      One moment; then forgotten. Meaning is not only shaped by language,
-      but by when language arrives. Objective is not influence, but legibility.
+      Type a place. Tap <strong>Advise</strong>. ChronoLock names a calm
+      morning time (08:30–10:30 local) so people read it, not yell.
+      It does not post. It does not change the words. Advisory only —
+      not a scheduler, not targeting, not virality, not analytics.
+      One moment; then forgotten.
     </p>
   </header>
   <hr class="rule">
+
+  <div class="view-toggle" role="group" aria-label="Simple or advanced view">
+    <button type="button" id="view-simple" class="view on" aria-pressed="true">Simple</button>
+    <button type="button" id="view-advanced" class="view" aria-pressed="false">Advanced</button>
+  </div>
 
   <form id="advise-form" autocomplete="off">
     <div class="row">
       <label for="geo">
         <span class="kicker">Last-known geo</span>
-        Free text (city, region, country). Not an identity.
+        Type a place (city, region, country). Not an identity.
       </label>
       <input id="geo" name="geo" type="text" placeholder="Indiana" spellcheck="false">
     </div>
-    <div class="or">or</div>
-    <div class="row">
+    <div class="or advanced-only">or</div>
+    <div class="row advanced-only">
       <label for="anchor">
         <span class="kicker">Top-30 country</span>
         Anchor dropdown. Polarize a five-region basket from this.
@@ -42,27 +47,31 @@
     <div class="row io">
       <label>Import JSON <input type="file" id="import-json" accept="application/json,.json"></label>
       <button type="button" id="export-json">Export JSON</button>
+      <button type="button" id="verify">Verify</button>
     </div>
   </form>
+
+  <p id="kid-plain" class="kid">Type a place. Tap Advise. Optional: Import JSON, Export JSON, or Verify (plain words).</p>
+  <p id="verify-line" class="verify-line"></p>
 
   <section class="output" aria-live="polite">
     <h2>Advisory</h2>
     <dl class="fields">
-      <dt>geo location chosen</dt>
+      <dt>place chosen</dt>
       <dd id="out-geo" class="empty">—</dd>
-      <dt>optimal time</dt>
+      <dt>local time</dt>
       <dd id="out-time" class="empty">—</dd>
-      <dt>optimal date</dt>
+      <dt>local date</dt>
       <dd id="out-date" class="empty">—</dd>
-      <dt>primary language</dt>
+      <dt>language</dt>
       <dd id="out-lang" class="empty">—</dd>
-      <dt>dialect section</dt>
+      <dt>dialect</dt>
       <dd id="out-dialect" class="empty">—</dd>
     </dl>
-    <p class="note">Five fields. Temporal Neutral Window 08:30–10:30 local. No scores, no confidence, no alternatives, no because. Not a scheduler.</p>
+    <p class="note">Five fields. Temporal Neutral Window 08:30–10:30 local. No scores, no confidence, no alternatives, no because. Not a scheduler. geo_location_chosen, optimal_time, optimal_date, primary_language, dialect_section.</p>
   </section>
 
-  <section class="zones">
+  <section class="zones advanced-only">
     <h2>Timezone reference</h2>
     <p>Read-only. Computed locally with IANA zoneinfo. Listing zones does not change the advisory. Chrono-alignment staggers identical content across these zones; it does not post.</p>
     <table>
@@ -81,6 +90,7 @@
 
   <footer>
     <p><strong>Meaning is not only shaped by language, but by when language arrives.</strong></p>
+    <p>Public name of the Chronolect Layer (formerly prototyped as StaticClock). The <code>staticclock</code> command still works: it prints one deprecation line, then runs ChronoLock. StaticClock itself is not deleted.</p>
     <p>Apache-2.0 · Aziel Eliab · 2026 · Bound to 127.0.0.1:8851 · Forks welcome and always allowed.</p>
   </footer>
   <script src="/app.js"></script>

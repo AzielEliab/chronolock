@@ -384,8 +384,10 @@ async function indexHtml(env) {
         });
       })();
     </script>
-    <h2>Per repo / branch / fork</h2>
-    <ul>${breakdown}</ul>
+    <details>
+      <summary>Per repo / branch / fork</summary>
+      <ul>${breakdown}</ul>
+    </details>
   </div>
 </body>
 </html>`;

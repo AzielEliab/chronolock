@@ -146,3 +146,39 @@ def test_stagger_cli_names_windows(capsys) -> None:
     assert "not a scheduler" in out.lower()
     assert "America/New_York" in out or "United States" in out
     assert "Asia/Tokyo" in out or "Japan" in out
+
+def test_help_lists_doctor_import_export() -> None:
+    from chronolock.cli import _build_parser
+
+    text = _build_parser().format_help()
+    assert "doctor" in text
+    assert "import" in text
+    assert "export" in text
+
+
+def test_ui_html_has_simple_import_export_verify() -> None:
+    import threading
+    import urllib.request
+
+    httpd = make_server("127.0.0.1", 0)
+    port = httpd.server_address[1]
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/", timeout=3) as resp:
+            html = resp.read().decode("utf-8")
+        assert "Import JSON" in html
+        assert "Export JSON" in html
+        assert "Verify" in html
+        assert "Simple" in html
+        assert "StaticClock" in html
+        assert "Aziel Eliab" in html
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/doctor", timeout=8) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+        assert payload["ok"] is True
+        assert payload["author"] == "Aziel Eliab"
+        assert "plain" in payload
+        assert "does not post" in payload["plain"].lower()
+    finally:
+        httpd.shutdown()
+        httpd.server_close()

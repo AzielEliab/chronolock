@@ -1,4 +1,9 @@
-"""Small JSON import/export for ChronoLock. Author: Aziel Eliab."""
+"""JSON import/export for ChronoLock. Process memory only. Author: Aziel Eliab.
+
+No ``.chronolock`` store. No sqlite. Import holds the last document in
+this process; ``forget_imported()`` drops it. Export writes a file the
+caller named — that is the user's file, not a hidden product store.
+"""
 
 from __future__ import annotations
 
@@ -10,24 +15,36 @@ from chronolock import __version__
 
 AUTHOR = "Aziel Eliab"
 PRODUCT = "ChronoLock"
-STATE_NAME = ".chronolock-state.json"
+
+_LAST: dict[str, Any] | None = None
 
 
 def _as_path(path: str | Path) -> Path:
     return Path(path)
 
 
+def last_imported() -> dict[str, Any] | None:
+    if _LAST is None:
+        return None
+    return dict(_LAST)
+
+
+def forget_imported() -> None:
+    global _LAST
+    _LAST = None
+
+
 def import_json(path: str | Path) -> dict[str, Any]:
+    """Read a JSON object. Keep it in process memory only."""
+    global _LAST
     pth = _as_path(path)
     doc = json.loads(pth.read_text(encoding="utf-8"))
     if not isinstance(doc, dict):
         raise ValueError("JSON object required")
-    dest = Path.cwd() / STATE_NAME
-    dest.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _LAST = dict(doc)
     return {
         "ok": True,
         "imported": str(pth),
-        "stored": str(dest),
         "keys": sorted(str(k) for k in doc.keys()),
         "author": AUTHOR,
         "product": PRODUCT,
@@ -36,14 +53,9 @@ def import_json(path: str | Path) -> dict[str, Any]:
 
 
 def export_json(path: str | Path) -> dict[str, Any]:
+    """Write a JSON document the caller named. Does not create a hidden store."""
     pth = _as_path(path)
-    src = Path.cwd() / STATE_NAME
-    payload: Any = {}
-    if src.exists():
-        try:
-            payload = json.loads(src.read_text(encoding="utf-8"))
-        except Exception:
-            payload = {}
+    payload: Any = dict(_LAST) if isinstance(_LAST, dict) else {}
     doc = {
         "product": PRODUCT,
         "package": "chronolock",

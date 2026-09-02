@@ -7,7 +7,7 @@ description: Use when calling ChronoLock hosted /v1 or installing the local pack
 
 Time-of-release is a semantic move. Advisory, not a scheduler. Author: **Aziel Eliab**.
 
-**THIS IS:** timezone-aware linguistic alignment (Chronolect Layer).
+**THIS IS:** timezone-aware linguistic alignment (Chronolect Layer). Public name of the layer formerly prototyped as StaticClock. The `staticclock` command still works as a deprecated alias.
 
 **THIS IS NOT:** a scheduler, targeting tool, or analytics profile. Hosted `/v1` does not increment downloads or views.
 
@@ -35,7 +35,7 @@ curl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.de
 curl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill
 ```
 
-## Local (after one-click install)
+## Local (three steps)
 
 ```bash
 curl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash
@@ -43,7 +43,7 @@ chronolock ui
 chronolock doctor
 ```
 
-Then open http://127.0.0.1:8851 (loopback only).
+Then open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. Optional Import JSON, Export JSON, Verify (plain words). Simple view is the default.
 
 Counted download (gzip HTTP 200, no 302): https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz
 GitHub: https://github.com/AzielEliab/chronolock
