@@ -1,6 +1,6 @@
 ---
 name: ChronoLock
-description: Use when calling ChronoLock hosted /v1 or installing the local package. Author Aziel Eliab.
+description: Use when calling ChronoLock hosted /v1 or installing the local package. Dual surface: Worker /v1 + catalog MCP. This Worker /v1/mesh/* PROXY to aziel-runtime via AZIEL_RUNTIME. Suite mesh default OFF. QNM-BUILD-1.0 live|locked|isolated. No Node Gate. No auto-heal. Not anonymity. Author Aziel Eliab.
 ---
 
 # ChronoLock
@@ -24,6 +24,9 @@ Ops (do **not** increment downloads or views):
 
 - `GET /v1/health` — liveness
 - `GET /v1/skill` — this file
+- `GET /v1/mesh` — PROXY suite mesh status. Default OFF. QNM live|locked|isolated. Never enables.
+- `GET /v1/mesh/nodes` — PROXY Live Nodes roster (5-minute presence).
+- `POST /v1/mesh/{enable,disable,join,heartbeat,leave,broadcast}` — PROXY. Bearer required to enable. No auto-heal. Anon-broadcast is not a publish path.
 - Product POSTs listed in OpenAPI
 
 Works with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.
@@ -33,6 +36,7 @@ Works with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic
 ```bash
 curl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health
 curl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill
+curl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh
 ```
 
 ## Local (three steps)
@@ -59,6 +63,6 @@ Author: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 loca
 - This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json
 - Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`
 
-Local UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`.
+Local UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`. Worker homepage Live Nodes strip polls `GET /v1/mesh` (default OFF).
 
 Works with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import catalog or Worker OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.

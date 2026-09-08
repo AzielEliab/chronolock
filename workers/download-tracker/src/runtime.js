@@ -1,7 +1,9 @@
 /**
  * ChronoLock hosted runtime (port of anchors/engine/chronolect/glossa/polarize).
  * Advisory only, not a scheduler. /v1 never touches DOWNLOADS KV.
+ * /v1/mesh/* PROXY to aziel-runtime via AZIEL_RUNTIME (handled in index.js before this catch-all).
  */
+import { meshOpenApiPaths, meshPointer } from "./mesh.js";
 import INDEX from "./index-data.json";
 
 const PRODUCT = "chronolock";
@@ -12,7 +14,7 @@ const EXAMPLE_PAYLOAD = {
 const VERSION = "0.1.0";
 const MOTTO = "Meaning is not only shaped by language, but by when language arrives.";
 const HOST = "https://chronolock-download-tracker.vibelock.workers.dev";
-const SKILL = "---\nname: ChronoLock\ndescription: Use when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler. Hosted /v1 via this Worker or aziel-runtime. Author Aziel Eliab.\n---\n\n# ChronoLock\n\nMeaning is not only shaped by language, but by when language arrives.\n\nAuthor: **Aziel Eliab**.\n\nUse when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler.\n\nAlways send `User-Agent: Mozilla/5.0`. Cloudflare Workers may 403 an empty agent.\n\n## Endpoints (this Worker)\n\nHost: `https://chronolock-download-tracker.vibelock.workers.dev`\n\n| Method | Path | What |\n|--------|------|------|\n| GET | `/v1/health` | Liveness. Does not increment downloads. |\n| GET | `/v1/skill` | This markdown. Does not increment downloads. |\n| GET | `/v1/anchors` | List Top-30 geographic anchors. |\n| POST | `/v1/advisory` | One advisory for a last-known geo. |\n\nOpenAPI: `https://chronolock-download-tracker.vibelock.workers.dev/openapi.json`\n\nCatalog OpenAPI: `https://aziel-runtime.vibelock.workers.dev/openapi.json`\n\nMCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n\nCatalog aliases under `/p/chronolock/\u2026`.\n\n## How to call (Mozilla/5.0)\n\n```bash\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health\ncurl -s -A 'Mozilla/5.0' -X POST https://chronolock-download-tracker.vibelock.workers.dev/v1/advisory \\\n  -H 'content-type: application/json' \\\n  -d '{\"geo\":\"Indiana\",\"language\":\"English\"}'\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill\n```\n\nWorks with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import the catalog OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.\n\n## Local (three steps)\n\n```bash\ncurl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash\nchronolock ui\nchronolock doctor\n```\n\nThen open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. Optional Import JSON, Export JSON, Verify (plain words). Simple view is the default. `staticclock` is a deprecated alias; ChronoLock is the public name.\n\n## Honest banner\n\nTHIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30\u201310:30 local). Public name of the Chronolect Layer (formerly prototyped as StaticClock). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.\n\nApache-2.0 (or the repo LICENSE). Forks are welcome and always allowed.\n\n## Catalog + local UI\n\nAuthor: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 local. Distinct from TemporalLock. Not a scheduler.\n\n- Catalog product: https://aziel-runtime.vibelock.workers.dev/p/chronolock/\n- Catalog OpenAPI: https://aziel-runtime.vibelock.workers.dev/openapi.json\n- Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n- This Worker skill: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/skill`\n- This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json\n- Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`\n\nLocal UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`.\n\nWorks with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import catalog or Worker OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.\n";
+const SKILL = "---\nname: ChronoLock\ndescription: Use when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler. Dual surface: Worker /v1 + catalog MCP. This Worker /v1/mesh/* PROXY to aziel-runtime via AZIEL_RUNTIME. Suite mesh default OFF. QNM-BUILD-1.0 live|locked|isolated. No Node Gate. No auto-heal. Not anonymity. Author Aziel Eliab.\n---\n\n# ChronoLock\n\nMeaning is not only shaped by language, but by when language arrives.\n\nAuthor: **Aziel Eliab**.\n\nUse when an assistant should name a Temporal Neutral Window or chrono-alignment so text is read, not reacted to. Advisory hygiene, not a scheduler.\n\nAlways send `User-Agent: Mozilla/5.0`. Cloudflare Workers may 403 an empty agent.\n\n## Endpoints (this Worker)\n\nHost: `https://chronolock-download-tracker.vibelock.workers.dev`\n\n| Method | Path | What |\n|--------|------|------|\n| GET | `/v1/health` | Liveness. Does not increment downloads. |\n| GET | `/v1/skill` | This markdown. Does not increment downloads. |\n| GET | `/v1/mesh` | PROXY suite mesh status. Default OFF. QNM live|locked|isolated. Never enables. |\n| GET | `/v1/mesh/nodes` | PROXY Live Nodes roster (5-minute presence). |\n| POST | `/v1/mesh/{enable,disable,join,heartbeat,leave,broadcast}` | PROXY. Bearer required to enable. No auto-heal. |\n| GET | `/v1/anchors` | List Top-30 geographic anchors. |\n| POST | `/v1/advisory` | One advisory for a last-known geo. |\n\nOpenAPI: `https://chronolock-download-tracker.vibelock.workers.dev/openapi.json`\n\nCatalog OpenAPI: `https://aziel-runtime.vibelock.workers.dev/openapi.json`\n\nMCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n\nCatalog aliases under `/p/chronolock/\u2026`.\n\n## How to call (Mozilla/5.0)\n\n```bash\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/health\ncurl -s -A 'Mozilla/5.0' -X POST https://chronolock-download-tracker.vibelock.workers.dev/v1/advisory \\\n  -H 'content-type: application/json' \\\n  -d '{\"geo\":\"Indiana\",\"language\":\"English\"}'\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/skill\ncurl -s -A 'Mozilla/5.0' https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh\n```\n\nWorks with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import the catalog OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.\n\n## Local (three steps)\n\n```bash\ncurl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash\nchronolock ui\nchronolock doctor\n```\n\nThen open http://127.0.0.1:8851 (this computer only). Type a place, tap Advise. Optional Import JSON, Export JSON, Verify (plain words). Simple view is the default. `staticclock` is a deprecated alias; ChronoLock is the public name.\n\n## Honest banner\n\nTHIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30\u201310:30 local). Public name of the Chronolect Layer (formerly prototyped as StaticClock). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.\n\nApache-2.0 (or the repo LICENSE). Forks are welcome and always allowed.\n\n## Catalog + local UI\n\nAuthor: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 local. Distinct from TemporalLock. Not a scheduler.\n\n- Catalog product: https://aziel-runtime.vibelock.workers.dev/p/chronolock/\n- Catalog OpenAPI: https://aziel-runtime.vibelock.workers.dev/openapi.json\n- Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`\n- This Worker skill: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/skill`\n- This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json\n- Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`\n- Suite mesh: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh` PROXY (default OFF)\n\nLocal UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`. Worker homepage Live Nodes strip polls `GET /v1/mesh` (default OFF).\n\nWorks with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import catalog or Worker OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.\n";
 
 const OUTPUT_FIELDS = ["geo_location_chosen", "optimal_time", "optimal_date", "primary_language", "dialect_section"];
 const DEFAULT_ANCHOR = "United States";
@@ -59,8 +61,8 @@ for (const s of US_STATES) ALIASES[s] = "United States";
 function corsHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, HEAD, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization, X-Aziel-Runtime-Token, User-Agent",
   };
 }
 
@@ -274,12 +276,13 @@ function openapiSpec() {
     info: {
       title: "ChronoLock runtime",
       version: VERSION,
-      description: "Chronolect Layer / ChronoLock. Advisory only — not a scheduler, not targeting, not virality. Temporal Neutral Window 08:30–10:30 local. " + MOTTO + " The objective is not influence, but legibility.",
+      description: "Chronolect Layer / ChronoLock. Advisory only — not a scheduler, not targeting, not virality. Temporal Neutral Window 08:30–10:30 local. " + MOTTO + " The objective is not influence, but legibility. Suite mesh /v1/mesh/* PROXY to aziel-runtime (AZIEL_RUNTIME). Default OFF. QNM-BUILD-1.0 live|locked|isolated. No Node Gate. No auto-heal. Not anonymity. Aziel Eliab only.",
     },
     servers: [{ url: HOST }],
     paths: {
       
             "/v1/example": { get: { operationId: "chronolockExample", summary: "Sample JSON payload. Does not increment downloads.", responses: { "200": { description: "OK" } } } },
+      ...meshOpenApiPaths(),
       "/v1/skill": {
         get: {
           operationId: "chronolock_skill",
@@ -343,18 +346,20 @@ function aiHtml() {
   <p><code>${HOST}/openapi.json</code></p>
   <p>Endpoints: <code>GET ${HOST}/v1/anchors</code> and <code>POST ${HOST}/v1/advisory</code>.</p>
   <h2>MCP catalog</h2>
-  <p>The shared catalog (ships separately) is <code>https://aziel-runtime.vibelock.workers.dev/mcp</code>.</p>
-  <p><a href="/openapi.json">openapi.json</a> · <a href="/v1/health">health</a> · <a href="/">downloads</a></p>
+  <p>The shared catalog (ships separately) is <code>https://aziel-runtime.vibelock.workers.dev/mcp</code> (catalog <code>mesh_*</code> + FragGate <code>slug=mesh</code>).</p>
+  <p>Suite mesh: <code>GET ${HOST}/v1/mesh</code> PROXY to aziel-runtime. Default OFF. QNM-BUILD-1.0 live|locked|isolated. No Node Gate. No auto-heal. Not anonymity. Author: Aziel Eliab only.</p>
+  <p><a href="/openapi.json">openapi.json</a> · <a href="/v1/health">health</a> · <a href="/v1/mesh">/v1/mesh</a> · <a href="/">downloads</a></p>
 </body>
 </html>`;
 }
 
 export async function handleRuntimeApi(request, url) {
   const path = url.pathname;
+  if (path === "/v1/mesh" || path.startsWith("/v1/mesh/")) return null;
   const isApi = path === "/v1" || path.startsWith("/v1/") || path === "/openapi.json" || path === "/ai";
   if (!isApi) return null;
   if (path === "/v1/health" && request.method === "GET") {
-    return json({ ok: true, author: "Aziel Eliab", product: PRODUCT, version: VERSION, motto: MOTTO, note: "Advisory only. Not a scheduler, not targeting, not virality." });
+    return json({ ok: true, author: "Aziel Eliab", product: PRODUCT, version: VERSION, motto: MOTTO, note: "Advisory only. Not a scheduler, not targeting, not virality.", mesh: meshPointer() });
   }
   if ((path === "/v1/example" || path === "/v1/example/") && (request.method === "GET" || request.method === "HEAD")) {
     return json({
@@ -385,5 +390,5 @@ export async function handleRuntimeApi(request, url) {
     const advisory = await advise(geo, body.language, body.dialect);
     return json(advisory);
   }
-  return json({ error: "not found" }, 404);
+  return json({ error: "not found", hint: "GET /v1/health GET /v1/skill GET /v1/anchors POST /v1/advisory GET /v1/mesh" }, 404);
 }
