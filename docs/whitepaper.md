@@ -171,6 +171,13 @@ increments DOWNLOADS):
 - `GET /ai`
 - `GET /v1/anchors`
 - `POST /v1/advisory` `{geo, language?}`
+- `GET /v1/mesh` PROXY to aziel-runtime (default OFF)
+
+The Worker homepage shows a suite Live Nodes strip. `/v1/mesh/*` PROXY
+to aziel-runtime. Suite mesh default OFF. QNM rollup is
+live|locked|isolated counts only. No Node Gate. No auto-heal. Not an
+anonymity network. Anon-broadcast is not a publish path. ChronoLock
+remains an advisory Chronolect Layer, not a scheduler.
 
 Banner: advisory, not a scheduler, not targeting, not virality.
 

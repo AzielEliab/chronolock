@@ -35,7 +35,10 @@ Python 3.10+. Core is stdlib only (`zoneinfo`, `secrets`, `json`,
    Port 8765 is StaticClock.
 7. **Not a scheduler.** `stagger()` names times. It must not post, queue,
    or cron. Do not merge with TemporalLock.
-8. New behavior needs a test that fails without the change.
+8. **Door vs local op.** `/v1/mesh/*` PROXY to aziel-runtime. Local ops are `/v1/{op}` only.
+   Suite mesh default OFF; QNM rollup live|locked|isolated; no Node Gate;
+   no auto-heal; not anonymity.
+9. New behavior needs a test that fails without the change.
 
 ## Where to change things
 
@@ -49,6 +52,8 @@ Python 3.10+. Core is stdlib only (`zoneinfo`, `secrets`, `json`,
 - Local UI: `chronolock/ui.py`, `chronolock/web/` (simple view default; Import / Export JSON; Verify in plain words)
 - Doctor: `chronolock/doctor.py` (plain words; no network)
 - JSON import/export: `chronolock/jsonio.py` (no hidden store)
+- Isolated counter: `workers/download-tracker/`
+- Suite mesh / QNM Live Nodes: `workers/download-tracker/src/mesh.js` (`/v1/mesh/*` PROXY to aziel-runtime).
 
 ## License of contributions
 
