@@ -1,6 +1,8 @@
-"""Suite mesh Live Nodes + QNM-BUILD-1.0 contract.
+"""Suite mesh Live Nodes + QNM-BUILD-1.0 + QNS-CD-1.0 contract.
 
 Default OFF. live|locked|isolated. No Node Gate. No auto-heal. Not anonymity.
+QNS-CD-1.0 photon QNS1 packet transfer is a hub cite / Worker mesh cross-map only.
+No public qnsd proxy.
 """
 
 from __future__ import annotations
@@ -31,6 +33,31 @@ def test_mesh_contract_default_off_qnm_law() -> None:
     assert "anon_broadcast_publish_path: false" in MESH
     assert "Aziel Eliab" in MESH
     assert 'code: extra.code || "MESH-OK"' in MESH or '"MESH-OK"' in MESH
+
+
+def test_qns_cd_cross_map() -> None:
+    assert 'QNS_CD_SPEC = "QNS-CD-1.0"' in MESH
+    assert "export const QNS_CD" in MESH
+    assert "export function stampQnsCd" in MESH
+    assert "photon QNS1 packet transfer" in MESH
+    assert "https://github.com/AzielEliab/qnm-node" in MESH
+    assert "https://github.com/AzielEliab/aziel-runtime" in MESH
+    assert "https://github.com/AzielEliab/azinterface" in MESH
+    assert "docs/NODE_MESH.md" in MESH
+    assert "docs/designs/QNM-WP-1.0.md" in MESH
+    assert "softwares_tab: false" in MESH
+    assert "qnsd_proxy: false" in MESH
+    assert "public_proxy: false" in MESH
+    assert "pair_custody: \"azinterface\"" in MESH
+    assert "QNS-CD-1.0" in MESH
+    assert "QNS-CD-1.0" in MESH[MESH.index("MESH_NOTE") : MESH.index("MESH_NOTE") + 400]
+    assert "qns_cd_spec: QNS_CD_SPEC" in MESH
+    assert "qns_cd: QNS_CD" in MESH
+    assert "stampQnsCd(data)" in MESH
+    assert "/v1/qnsd" not in MESH
+    assert "qnsd_proxy: true" not in MESH
+    assert "MESH_DEFAULT_OFF = true" in MESH
+    assert "MESH_NODE_GATE = false" in MESH
 
 
 def test_mesh_pointer_and_openapi_helpers() -> None:
@@ -105,3 +132,14 @@ def test_docs_advertise_mesh_proxy() -> None:
     assert "MESH-OK" in WORKER_README
     assert "enabled: false" in WORKER_README
     assert "Aziel Eliab" in MESH
+    assert "QNS-CD-1.0" in README
+    assert "QNS-CD-1.0" in SKILL
+    assert "QNS-CD-1.0" in WORKER_README
+    assert "QNS-CD-1.0" in RUNTIME
+    assert "QNS-CD-1.0" in INDEX
+    assert "photon QNS1 packet transfer" in README
+    assert "photon QNS1 packet transfer" in SKILL
+    assert "no public qnsd" in README.lower() or "No public qnsd" in README
+    assert "AzielEliab/qnm-node" in README
+    assert "AzielEliab/aziel-runtime" in README
+    assert "not a Softwares-tab product" in SKILL or "Not a Softwares-tab product" in SKILL

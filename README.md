@@ -71,7 +71,7 @@ The Worker serves the gzip itself (HTTP 200, no 302 to GitHub).
 - Direct tarball: [chronolock-0.1.0.tar.gz](https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz)
 - One-click install: [https://chronolock-download-tracker.vibelock.workers.dev/install.sh](https://chronolock-download-tracker.vibelock.workers.dev/install.sh)
 - Skill: [https://chronolock-download-tracker.vibelock.workers.dev/v1/skill](https://chronolock-download-tracker.vibelock.workers.dev/v1/skill)
-- Suite mesh proxy: [https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh](https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh) — default OFF; QNM live / locked / isolated
+- Suite mesh proxy: [https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh](https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh) — default OFF; QNM live / locked / isolated; QNS-CD-1.0 photon QNS1 packet transfer cross-map (hub cite only; no public qnsd)
 - OpenAPI: [https://chronolock-download-tracker.vibelock.workers.dev/openapi.json](https://chronolock-download-tracker.vibelock.workers.dev/openapi.json)
 - GitHub: [https://github.com/AzielEliab/chronolock](https://github.com/AzielEliab/chronolock)
 
@@ -180,7 +180,7 @@ engineering. Does not change wording. Timing advice only.
 ## Use with ChatGPT, Grok, Venice, Claude, Cursor, Glama, Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence, Amazon Q, DuckAssist, You.com, Cohere, and other MCP/OpenAPI assistants
 
 Catalog OpenAPI: https://aziel-runtime.vibelock.workers.dev/openapi.json
-Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`. Suite mesh `/v1/mesh/*` PROXY via `AZIEL_RUNTIME` (default OFF; QNM-BUILD-1.0 live|locked|isolated; no Node Gate). Catalog MCP `mesh_*` + FragGate `slug=mesh`.
+Catalog MCP: `POST https://aziel-runtime.vibelock.workers.dev/mcp`. Suite mesh `/v1/mesh/*` PROXY via `AZIEL_RUNTIME` (default OFF; QNM-BUILD-1.0 live|locked|isolated; QNS-CD-1.0 photon QNS1 packet transfer cross-map; no Node Gate; no public qnsd). Catalog MCP `mesh_*` + FragGate `slug=mesh`. Local qnsd lives in [qnm-node](https://github.com/AzielEliab/qnm-node); runtime cites in [aziel-runtime](https://github.com/AzielEliab/aziel-runtime). Not a Softwares-tab product.
 This Worker skill: https://chronolock-download-tracker.vibelock.workers.dev/v1/skill
 This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json
 

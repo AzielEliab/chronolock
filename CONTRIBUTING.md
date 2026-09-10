@@ -53,7 +53,7 @@ Python 3.10+. Core is stdlib only (`zoneinfo`, `secrets`, `json`,
 - Doctor: `chronolock/doctor.py` (plain words; no network)
 - JSON import/export: `chronolock/jsonio.py` (no hidden store)
 - Isolated counter: `workers/download-tracker/`
-- Suite mesh / QNM Live Nodes: `workers/download-tracker/src/mesh.js` (`/v1/mesh/*` PROXY to aziel-runtime).
+- Suite mesh / QNM Live Nodes: `workers/download-tracker/src/mesh.js` (`/v1/mesh/*` PROXY to aziel-runtime). QNS-CD-1.0 photon QNS1 packet transfer is a hub cite / Worker mesh cross-map only (`QNS_CD_SPEC` + `QNS_CD`). Mesh stays default OFF. No Node Gate. No public qnsd proxy.
 
 ## License of contributions
 

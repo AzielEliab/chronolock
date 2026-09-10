@@ -1,6 +1,6 @@
 ---
 name: ChronoLock
-description: Use when calling ChronoLock hosted /v1 or installing the local package. Dual surface: Worker /v1 + catalog MCP. This Worker /v1/mesh/* PROXY to aziel-runtime via AZIEL_RUNTIME. Suite mesh default OFF. QNM-BUILD-1.0 live|locked|isolated. No Node Gate. No auto-heal. Not anonymity. Author Aziel Eliab.
+description: Use when calling ChronoLock hosted /v1 or installing the local package. Dual surface: Worker /v1 + catalog MCP. This Worker /v1/mesh/* PROXY to aziel-runtime via AZIEL_RUNTIME. Suite mesh default OFF. QNM-BUILD-1.0 live|locked|isolated. QNS-CD-1.0 photon QNS1 packet transfer cross-map (hub cite only; no public qnsd). No Node Gate. No auto-heal. Not anonymity. Author Aziel Eliab.
 ---
 
 # ChronoLock
@@ -24,8 +24,8 @@ Ops (do **not** increment downloads or views):
 
 - `GET /v1/health` — liveness
 - `GET /v1/skill` — this file
-- `GET /v1/mesh` — PROXY suite mesh status. Default OFF. QNM live|locked|isolated. Never enables.
-- `GET /v1/mesh/nodes` — PROXY Live Nodes roster (5-minute presence).
+- `GET /v1/mesh` — PROXY suite mesh status. Default OFF. QNM live|locked|isolated. QNS-CD-1.0 photon QNS1 packet transfer cross-map in the payload. Never enables. No public qnsd.
+- `GET /v1/mesh/nodes` — PROXY Live Nodes roster (5-minute presence). Same QNS-CD-1.0 cross-map.
 - `POST /v1/mesh/{enable,disable,join,heartbeat,leave,broadcast}` — PROXY. Bearer required to enable. No auto-heal. Anon-broadcast is not a publish path.
 - Product POSTs listed in OpenAPI
 
@@ -63,6 +63,6 @@ Author: **Aziel Eliab**. Honest scope: Advisory temporal window 08:30-10:30 loca
 - This Worker OpenAPI: https://chronolock-download-tracker.vibelock.workers.dev/openapi.json
 - Sample payload: `GET https://chronolock-download-tracker.vibelock.workers.dev/v1/example`
 
-Local UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`. Worker homepage Live Nodes strip polls `GET /v1/mesh` (default OFF).
+Local UI: **Import JSON file** (`type=file`) and **Export JSON**. Then `chronolock doctor`. Worker homepage Live Nodes strip polls `GET /v1/mesh` (default OFF). QNS-CD-1.0 is a hub cite / Worker mesh cross-map only ([qnm-node](https://github.com/AzielEliab/qnm-node), [aziel-runtime](https://github.com/AzielEliab/aziel-runtime)) — not a Softwares-tab product, not a public qnsd proxy.
 
 Works with ChatGPT (GPT Actions / OpenAI), Grok (xAI), Venice, Claude (Anthropic), Cursor (MCP), Glama (MCP), Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence surfaces, Amazon Q tooling, DuckAssist, You.com, Cohere, and other MCP/OpenAPI-capable assistants. Import catalog or Worker OpenAPI as a custom tool, GPT Action, HTTP tool, or MCP server as the client allows.
