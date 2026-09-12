@@ -319,6 +319,7 @@ async function indexHtml(env) {
 <meta name="description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to; not a scheduler.">
 <meta name="author" content="Aziel Eliab">
 <link rel="canonical" href="https://chronolock-download-tracker.vibelock.workers.dev/">
+<link rel="icon" type="image/png" href="/sigil.png">
 <meta property="og:title" content="ChronoLock — Aziel Eliab">
 <meta property="og:description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to; not a scheduler.">
 <meta property="og:url" content="https://chronolock-download-tracker.vibelock.workers.dev/">
@@ -375,8 +376,11 @@ async function indexHtml(env) {
   #meshStrip button:hover { background: #241c0d; color: #c9a227; }
   #meshStrip input { width: 10rem; padding: .4rem .55rem; border: 1px solid #c9a227; border-radius: 8px; background: #0e0e0e; color: #e8eaef; font: inherit; }
   #meshProducts { flex-basis: 100%; margin: 0; }
+  .brandrow { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
+  .brandmark { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex: 0 0 auto; box-shadow: 0 0 0 1px #d4af3733; }
 </style>
 <body>
+  <div class="brandrow"><img class="brandmark" src="/sigil.png" width="40" height="40" alt="" decoding="async"></div>
   <h1>ChronoLock</h1>
   <p class="motto">Meaning is not only shaped by language, but by when language arrives. Author Aziel Eliab.</p>
   <p class="banner">THIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30–10:30 local). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.</p>
