@@ -107,6 +107,53 @@ def test_runtime_advertises_mesh_proxy_and_pointer() -> None:
     assert 'path === "/v1/mesh"' in RUNTIME or 'path.startsWith("/v1/mesh/")' in RUNTIME
 
 
+ROSE_STAR_SHA256 = "af095e8b0916a7262860a53619c7110f25539988806775b1c7bff8df7b0ee848"
+BRAND_MARK = (
+    '<div class="brandrow"><img class="brandmark" src="/sigil.png" '
+    'width="40" height="40" alt="" decoding="async"></div>'
+)
+
+
+def _homepage_html(src: str) -> str:
+    start = src.index("return `<!doctype html>")
+    end = src.index("</html>`;", start)
+    return src[start:end]
+
+
+def test_home_rose_star_brand_mark_no_everblooming_on_mark() -> None:
+    home = _homepage_html(INDEX)
+    assert BRAND_MARK in home
+    assert 'class="brandrow"' in home
+    assert 'class="brandmark"' in home
+    assert 'src="/sigil.png"' in home
+    assert 'alt=""' in home
+    assert "everblooming sigil" not in home.lower()
+    assert "Everblooming sigil" not in home
+    assert 'alt="Everblooming' not in home
+    assert "Everblooming sigil ·" not in home
+    # Words stay off the mark; identity is Aziel Eliab only.
+    assert "Aziel Eliab" in home
+    assert ".brandrow" in home
+    assert ".brandmark" in home
+
+
+def test_ai_page_rose_star_brand_mark_empty_alt() -> None:
+    assert BRAND_MARK in RUNTIME
+    assert 'alt="Everblooming' not in RUNTIME
+    assert "Everblooming sigil ·" not in RUNTIME
+
+
+def test_public_sigil_png_is_sister_rose_star() -> None:
+    import hashlib
+
+    path = ROOT / "workers/download-tracker/public/sigil.png"
+    data = path.read_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n"
+    assert hashlib.sha256(data).hexdigest() == ROSE_STAR_SHA256
+    assert 'directory = "./public"' in WRANGLER
+    assert "/sigil.png" not in WRANGLER  # assets serve the file; worker-first list stays unchanged
+
+
 def test_home_live_nodes_strip_no_node_gate() -> None:
     assert 'id="meshStrip"' in INDEX
     assert 'id="meshLiveCount"' in INDEX
