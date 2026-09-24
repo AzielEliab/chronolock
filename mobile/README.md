@@ -1,15 +1,10 @@
 # ChronoLock — iPhone & Android
 
-Enter a geo. One advisory of five fields: geo_location_chosen, optimal_time, optimal_date, primary_language, dialect_section. Then forgets.
-
-Offline. No analytics. Dark matte / gold.
+Names a calm morning time for one place. Offline. Author: Aziel Eliab.
 
 Application id: `com.azieeliab.chronolock`
 
-## Open in Android Studio / Xcode
-
-The `android/` and `ios/` folders here are skeleton READMEs because
-this tree was written without the Flutter SDK on PATH.
+## Three steps
 
 ```bash
 cd mobile
@@ -18,19 +13,16 @@ flutter pub get
 flutter run
 ```
 
-Then open `android/` in Android Studio, or `ios/Runner.xcworkspace` in
-Xcode.
+Type a place and tap Advise. Light and dark follow the phone. Clear, field names, and notes are under Advanced and About.
 
-## Honest scope
+The `android/` and `ios/` folders here are skeleton READMEs because this tree was written without the Flutter SDK on PATH. `flutter create` fills them in. Then open `android/` in Android Studio, or `ios/Runner.xcworkspace` in Xcode.
 
-Not a scheduler, targeting system, or analytics. Does not optimize for reach or virality. No scores or because.
+## About
 
-## Desktop package (counted download)
+It names a morning window (08:30–10:30 local). It does not change wording, and it does not post.
 
 This phone app does not replace the desktop package.
 
-# → https://chronolock-download-tracker.vibelock.workers.dev/ ←
+https://github.com/AzielEliab/chronolock
 
-GitHub: https://github.com/AzielEliab/chronolock
-
-**Forks are welcome and always allowed.**
+Forks are welcome and always allowed.

@@ -27,6 +27,7 @@ python -m pip install -e .
 
 echo
 echo "Installed ChronoLock."
-echo "Run:  chronolock ui"
-echo "Then open http://127.0.0.1:8851  (loopback only)"
+echo "1. chronolock ui"
+echo "2. Open http://127.0.0.1:8851/"
+echo "3. Type a place and tap Advise."
 echo "Author: Aziel Eliab."

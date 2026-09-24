@@ -3,96 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ChronoLock — Chronolect Layer</title>
+  <title>ChronoLock</title>
   <link rel="stylesheet" href="/style.css">
 </head>
-<body class="simple">
-  <header>
-    <div class="tag">ChronoLock · v0.1.0 · 127.0.0.1:8851</div>
-    <h1>When should this be released so it is read, not reacted to?</h1>
-    <p class="lede">
-      Type a place. Tap <strong>Advise</strong>. ChronoLock names a calm
-      morning time (08:30–10:30 local) so people read it, not yell.
-      It does not post. It does not change the words. Advisory only —
-      not a scheduler, not targeting, not virality, not analytics.
-      One moment; then forgotten.
-    </p>
+<body data-version="{{version}}">
+  <header class="top">
+    <div>
+      <p class="brand">ChronoLock</p>
+      <h1>Name a calm morning time for one place.</h1>
+    </div>
+    <p class="author">Aziel Eliab</p>
   </header>
-  <hr class="rule">
-
-  <div class="view-toggle" role="group" aria-label="Simple or advanced view">
-    <button type="button" id="view-simple" class="view on" aria-pressed="true">Simple</button>
-    <button type="button" id="view-advanced" class="view" aria-pressed="false">Advanced</button>
-  </div>
 
   <form id="advise-form" autocomplete="off">
-    <div class="row">
-      <label for="geo">
-        <span class="kicker">Last-known geo</span>
-        Type a place (city, region, country). Not an identity.
-      </label>
-      <input id="geo" name="geo" type="text" placeholder="Indiana" spellcheck="false">
-    </div>
-    <div class="or advanced-only">or</div>
-    <div class="row advanced-only">
-      <label for="anchor">
-        <span class="kicker">Top-30 country</span>
-        Anchor dropdown. Polarize a five-region basket from this.
-      </label>
-      <select id="anchor" name="anchor">
-        <option value="">— choose an anchor —</option>
-      </select>
-    </div>
-    <button class="advise" type="submit" id="go">Advise</button>
-    <div class="row io">
-      <label>Import JSON <input type="file" id="import-json" accept="application/json,.json"></label>
-      <button type="button" id="export-json">Export JSON</button>
-      <button type="button" id="verify">Verify</button>
+    <label for="geo">Place <span class="hint">(last-known geo)</span></label>
+    <div class="ask">
+      <input id="geo" name="geo" type="text" placeholder="Indiana" spellcheck="false" autofocus>
+      <button class="primary" type="submit" id="go">Advise</button>
     </div>
   </form>
 
-  <p id="kid-plain" class="kid">Type a place. Tap Advise. Optional: Import JSON, Export JSON, or Verify (plain words).</p>
-  <p id="verify-line" class="verify-line"></p>
+  <p id="kid-plain" class="status">Type a place, then tap Advise.</p>
+  <p id="verify-line" class="verify-line" hidden></p>
 
   <section class="output" aria-live="polite">
     <h2>Advisory</h2>
     <dl class="fields">
-      <dt>place chosen</dt>
-      <dd id="out-geo" class="empty">—</dd>
-      <dt>local time</dt>
-      <dd id="out-time" class="empty">—</dd>
-      <dt>local date</dt>
-      <dd id="out-date" class="empty">—</dd>
-      <dt>language</dt>
-      <dd id="out-lang" class="empty">—</dd>
-      <dt>dialect</dt>
-      <dd id="out-dialect" class="empty">—</dd>
+      <div>
+        <dt>Chosen place</dt>
+        <dd id="out-geo" class="empty">—</dd>
+      </div>
+      <div>
+        <dt>Local time</dt>
+        <dd id="out-time" class="empty">—</dd>
+      </div>
+      <div>
+        <dt>Local date</dt>
+        <dd id="out-date" class="empty">—</dd>
+      </div>
+      <div>
+        <dt>Language</dt>
+        <dd id="out-lang" class="empty">—</dd>
+      </div>
+      <div>
+        <dt>Dialect</dt>
+        <dd id="out-dialect" class="empty">—</dd>
+      </div>
     </dl>
-    <p class="note">Five fields. Temporal Neutral Window 08:30–10:30 local. No scores, no confidence, no alternatives, no because. Not a scheduler. geo_location_chosen, optimal_time, optimal_date, primary_language, dialect_section.</p>
+    <p class="note">Morning window 08:30–10:30 local.</p>
   </section>
 
-  <section class="zones advanced-only">
-    <h2>Timezone reference</h2>
-    <p>Read-only. Computed locally with IANA zoneinfo. Listing zones does not change the advisory. Chrono-alignment staggers identical content across these zones; it does not post.</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Region</th>
-          <th>IANA</th>
-          <th>Local date</th>
-          <th>Local time</th>
-          <th>UTC</th>
-        </tr>
-      </thead>
-      <tbody id="zones-body"></tbody>
-    </table>
-  </section>
+  <details class="fold" id="advanced">
+    <summary>Advanced</summary>
+    <div class="fold-body">
+      <label for="anchor">Known place</label>
+      <p class="hint">Used when the place box above is empty.</p>
+      <select id="anchor" name="anchor">
+        <option value="">Choose a place</option>
+      </select>
+      <div class="io">
+        <label class="ghost file">Import JSON
+          <input type="file" id="import-json" accept="application/json,.json">
+        </label>
+        <button type="button" id="export-json" class="ghost">Export JSON</button>
+        <button type="button" id="verify" class="ghost">Verify</button>
+      </div>
+      <section class="zones">
+        <h2>Time zones</h2>
+        <p id="zones-status" class="hint">Current local time for each known place. Looking at this list does not change the advisory.</p>
+        <ul id="zones-list" class="zone-list"></ul>
+      </section>
+    </div>
+  </details>
 
-  <footer>
-    <p><strong>Meaning is not only shaped by language, but by when language arrives.</strong></p>
-    <p>Public name of the Chronolect Layer (formerly prototyped as StaticClock). The <code>staticclock</code> command still works: it prints one deprecation line, then runs ChronoLock. StaticClock itself is not deleted.</p>
-    <p>Apache-2.0 · Aziel Eliab · 2026 · Bound to 127.0.0.1:8851 · Forks welcome and always allowed.</p>
-  </footer>
+  <details class="fold" id="about">
+    <summary>About</summary>
+    <div class="fold-body">
+      <p>ChronoLock names a morning window so people can read what you share. The window is 08:30–10:30 local. It does not change the words. It does not post.</p>
+      <p>Simple view is the default. Open Advanced for import, export, verify, and time zones.</p>
+      <p>Public name of the Chronolect Layer (formerly prototyped as StaticClock). The <code>staticclock</code> command still works: it prints one deprecation line, then runs ChronoLock. StaticClock itself is not deleted.</p>
+      <p>Advisory hygiene, not a scheduler. Five fields: place, time, date, language, dialect.</p>
+      <p>ChronoLock {{version}} · Apache-2.0 · Aziel Eliab · This computer only (127.0.0.1). Forks are welcome and always allowed.</p>
+    </div>
+  </details>
+
   <script src="/app.js"></script>
 </body>
 </html>

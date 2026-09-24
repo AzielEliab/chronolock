@@ -1,9 +1,8 @@
 """Local ChronoLock UI. Bind 127.0.0.1 only.
 
-One obvious page: type a place, tap Advise. Simple view is the default.
-Import / Export JSON and Verify (plain words). Advanced view shows the
-Top-30 list and timezone table. Self-contained CSS. No CDN. No memory of
-past advisories. Each /api/advise is one moment, then forget.
+One page: type a place, tap Advise. Import, export, verify, and the
+time-zone list live under Advanced. Self-contained CSS. No CDN. No memory
+of past advisories. Each /api/advise is one moment, then forget.
 """
 
 from __future__ import annotations
@@ -13,6 +12,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
 from urllib.parse import urlparse
 
+from chronolock import __version__
 from chronolock.anchors import TOP_30
 from chronolock.engine import OUTPUT_FIELDS, ChronoLock
 from chronolock.zones import list_timezones
@@ -28,7 +28,10 @@ MAX_BODY = 65_536
 
 
 def _web_bytes(name: str) -> bytes:
-    return (WEB / name).read_bytes()
+    raw = (WEB / name).read_bytes()
+    if name == "index.html":
+        raw = raw.replace(b"{{version}}", __version__.encode("ascii"))
+    return raw
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -114,10 +117,7 @@ def make_server(host: str = "127.0.0.1", port: int = 8851) -> ThreadingHTTPServe
 def serve(host: str = "127.0.0.1", port: int = 8851) -> None:
     httpd = make_server(host, port)
     bound_host, bound_port = httpd.server_address[:2]
-    print(
-        f"ChronoLock UI http://{bound_host}:{bound_port} "
-        "(loopback only; simple view; no memory of advisories)"
-    )
+    print(f"Open http://{bound_host}:{bound_port}/", flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
