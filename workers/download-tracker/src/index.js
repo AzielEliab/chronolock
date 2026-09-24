@@ -386,12 +386,12 @@ async function indexHtml(env) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ChronoLock — Aziel Eliab</title>
-<meta name="description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to; not a scheduler.">
+<meta name="description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to.">
 <meta name="author" content="Aziel Eliab">
 <link rel="canonical" href="https://chronolock-download-tracker.vibelock.workers.dev/">
 <link rel="icon" type="image/png" href="/sigil.png">
 <meta property="og:title" content="ChronoLock — Aziel Eliab">
-<meta property="og:description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to; not a scheduler.">
+<meta property="og:description" content="Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to.">
 <meta property="og:url" content="https://chronolock-download-tracker.vibelock.workers.dev/">
 <meta property="og:type" content="website">
 <script type="application/ld+json">
@@ -407,59 +407,174 @@ async function indexHtml(env) {
   "downloadUrl": "https://chronolock-download-tracker.vibelock.workers.dev/download",
   "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "url": "https://chronolock-download-tracker.vibelock.workers.dev/",
-  "description": "Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to; not a scheduler."
+  "description": "Chronolect Layer by Aziel Eliab that names a Temporal Neutral Window so text is read, not reacted to."
 }
 </script>
 <!-- gitbaby-seo -->
 <style>
-  :root { color-scheme: dark; }
-  body { font: 16px/1.45 system-ui, sans-serif; max-width: 42rem; margin: 3rem auto; padding: 0 1.25rem 4rem; background: #0e1014; color: #e8eaef; }
-  h1 { font-size: 1.75rem; margin: 0 0 .35rem; }
-  .motto { color: #9aa3b2; margin: 0 0 1.5rem; }
-  .card { border: 1px solid #2a3140; border-radius: 12px; padding: 1.25rem 1.35rem; background: #151922; }
-  .nums { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 0 0 1rem; }
-  .count { font-size: 2.2rem; font-variant-numeric: tabular-nums; font-weight: 700; margin: 0; }
-  .count span { display: block; font-size: .95rem; font-weight: 500; color: #9aa3b2; }
-  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin: 0 0 .85rem; }
-  @media (max-width: 520px) { .btns { grid-template-columns: 1fr; } }
-  a.btn, button.btn { display: block; width: 100%; box-sizing: border-box; text-align: center; font: inherit; font-size: 1.2rem; font-weight: 750; padding: 1rem 1.1rem; border-radius: 10px; border: 0; cursor: pointer; text-decoration: none; }
-  a.btn.primary { background: #e8eaef; color: #0e1014; }
-  button.btn.install { background: #c9a227; color: #14110a; }
-  button.btn.install.copied { background: #7dcf9a; color: #0e1014; }
-  .kid { font-size: 1.05rem; margin: 0 0 1rem; }
-  .meta { margin-top: 1.1rem; color: #9aa3b2; font-size: .92rem; }
-  .meta a { color: #c9d4ff; }
-  .iso { margin-top: .85rem; font-size: .85rem; color: #7d8696; }
-  .banner { border: 1px solid #5c4a1a; background: #241c0d; color: #f0d78c; padding: .85rem 1rem; border-radius: 8px; margin: 0 0 1.2rem; font-size: .92rem; }
-  pre { background: #0e1014; padding: .75rem .9rem; overflow: auto; border-radius: 8px; font-size: .82rem; }
-  code { font-size: .88rem; }
-
-  .cite { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #2a3140; }
-  .cite h2 { font-size: 1.05rem; margin: 0 0 .4rem; }
-  .cite p { color: #c5ccd8; font-size: .95rem; }
-  .cite a { color: #c9d4ff; }
-  #meshStrip { border: 1px solid #c9a227; border-radius: 12px; padding: .85rem 1rem; background: #151922; margin: 0 0 1.2rem; display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1rem; font-size: .88rem; color: #9aa3b2; }
-  #meshStrip .live { color: #e8eaef; }
-  #meshStrip .live b { color: #c9a227; font-size: 1.35rem; margin-right: .35rem; }
-  #meshStrip .rollup b { color: #c9a227; }
-  #meshStrip button { font: 700 .78rem/1 ui-monospace, Menlo, Consolas, monospace; height: 2rem; padding: 0 .75rem; border-radius: 8px; background: #101010; color: #e8eaef; border: 1px solid #c9a227; cursor: pointer; }
-  #meshStrip button:hover { background: #241c0d; color: #c9a227; }
-  #meshStrip input { width: 10rem; padding: .4rem .55rem; border: 1px solid #c9a227; border-radius: 8px; background: #0e0e0e; color: #e8eaef; font: inherit; }
-  #meshProducts { flex-basis: 100%; margin: 0; }
+  :root {
+    color-scheme: dark;
+    --bg: #0e1014;
+    --text: #e8eaef;
+    --muted: #c5ceda;
+    --panel: #151922;
+    --line: #6a7384;
+    --gold: #c9a227;
+    --focus: #ffffff;
+    --link: #d6e2ff;
+    --primary-bg: #f4f6fb;
+    --primary-ink: #101218;
+    --code-bg: #0c0e12;
+    --input-bg: #0c0e12;
+    --ok-bg: #7dcf9a;
+    --ok-ink: #0e1014;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --bg: #f6f4ef;
+      --text: #17191e;
+      --muted: #3a4150;
+      --panel: #ffffff;
+      --line: #5c6573;
+      --gold: #6e5408;
+      --focus: #12141a;
+      --link: #123a86;
+      --primary-bg: #17191e;
+      --primary-ink: #ffffff;
+      --code-bg: #efece4;
+      --input-bg: #ffffff;
+      --ok-bg: #0f6b3a;
+      --ok-ink: #ffffff;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+  .wrap { max-width: 42rem; margin: 0 auto; padding: 1.15rem 1rem 2.75rem; }
+  .wrap p, .wrap li, .wrap div, .wrap a, .wrap h1, .wrap h2 { overflow-wrap: anywhere; }
+  a { color: var(--link); }
+  a.skip { position: absolute; left: -999px; top: 0; }
+  a.skip:focus {
+    left: 1rem; top: 1rem; z-index: 5;
+    background: var(--primary-bg); color: var(--primary-ink);
+    padding: .45rem .7rem; text-decoration: none;
+    outline: 2px solid var(--focus); outline-offset: 2px;
+  }
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+  }
+  .hero { margin: 0 0 1.15rem; }
   .brandrow { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
   .brandmark { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex: 0 0 auto; box-shadow: 0 0 0 1px #d4af3733; }
+  h1 { font-size: 2rem; font-weight: 650; letter-spacing: .02em; margin: 0 0 .25rem; line-height: 1.15; }
+  h2 { font-size: 1.05rem; margin: 0 0 .45rem; }
+  .motto { color: var(--gold); font-style: italic; margin: 0 0 .7rem; }
+  .lede { color: var(--muted); margin: 0 0 1rem; }
+  a.btn.block.primary {
+    display: block; width: 100%; margin: 0 0 .7rem; padding: 1.05rem 1.2rem;
+    border: 1px solid transparent; border-radius: 10px;
+    background: var(--primary-bg); color: var(--primary-ink);
+    text-align: center; text-decoration: none;
+    font: 700 1.25rem/1.15 ui-monospace, Menlo, Consolas, monospace;
+    letter-spacing: .03em; cursor: pointer;
+  }
+  a.btn.block.primary:hover { filter: brightness(1.08); }
+  .asset-note { color: var(--muted); font-size: .95rem; margin: 0 0 .9rem; }
+  .nums { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 0 0 1rem; }
+  .count { font-size: 1.65rem; font-variant-numeric: tabular-nums; font-weight: 700; margin: 0; color: var(--text); }
+  .count span { display: block; font-size: .92rem; font-weight: 500; color: var(--muted); }
+  .features { margin: 0; padding: 0; list-style: none; }
+  .features li { margin: 0 0 .35rem; padding-left: 1rem; position: relative; }
+  .features li::before {
+    content: ""; position: absolute; left: 0; top: .55em;
+    width: .35rem; height: .35rem; border-radius: 50%; background: var(--gold);
+  }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 1.15rem 1.1rem; background: var(--panel); margin: 0 0 1.1rem; }
+  button.btn.install {
+    display: block; width: 100%; text-align: center;
+    font: 700 1rem/1.15 ui-monospace, Menlo, Consolas, monospace;
+    padding: .85rem 1rem; border-radius: 10px; cursor: pointer;
+    background: transparent; color: var(--text); border: 1px solid var(--line);
+    margin: 0 0 .85rem;
+  }
+  button.btn.install:hover { border-color: var(--gold); color: var(--gold); }
+  button.btn.install.copied { background: var(--ok-bg); color: var(--ok-ink); border-color: transparent; }
+  .kid { font-size: 1.02rem; margin: 0 0 .85rem; }
+  .meta, .iso { color: var(--muted); }
+  .meta { margin: .85rem 0 0; font-size: .92rem; }
+  .iso { margin: .7rem 0 0; font-size: .85rem; }
+  .meta a { color: var(--link); }
+  pre {
+    background: var(--code-bg); color: var(--text);
+    padding: .75rem .9rem; overflow-x: auto; border-radius: 8px;
+    font-size: .82rem; max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere;
+    border: 1px solid var(--line);
+  }
+  code { font-size: .88em; overflow-wrap: anywhere; }
+  #meshStrip {
+    border: 1px solid var(--gold); border-radius: 12px; padding: .85rem 1rem;
+    background: var(--panel); margin: 0 0 1.1rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1rem;
+    font-size: .88rem; color: var(--muted);
+  }
+  #meshStrip .live { color: var(--text); }
+  #meshStrip .live b { color: var(--gold); font-size: 1.35rem; margin-right: .35rem; }
+  #meshStrip .rollup b { color: var(--gold); }
+  #meshStrip button {
+    font: 700 .78rem/1 ui-monospace, Menlo, Consolas, monospace;
+    min-height: 2rem; padding: 0 .75rem; border-radius: 8px;
+    background: var(--input-bg); color: var(--text); border: 1px solid var(--gold); cursor: pointer;
+  }
+  #meshStrip button:hover { background: var(--bg); color: var(--gold); }
+  .mesh-actions { display: flex; flex-wrap: wrap; gap: .5rem; flex-basis: 100%; align-items: center; }
+  #meshStrip input {
+    flex: 1 1 22rem; width: 100%; min-width: min(100%, 22rem); max-width: 100%;
+    padding: .45rem .55rem; border: 1px solid var(--gold); border-radius: 8px;
+    background: var(--input-bg); color: var(--text); font: inherit;
+  }
+  #meshStrip input::placeholder { color: var(--muted); opacity: 1; }
+  #meshProducts { flex-basis: 100%; margin: 0; overflow-wrap: anywhere; }
+  details { margin-top: .9rem; }
+  summary { cursor: pointer; }
+  footer.quiet {
+    margin-top: .4rem; padding-top: 1rem; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: .9rem;
+  }
+  footer.quiet h2 { color: var(--text); font-size: 1rem; font-weight: 600; }
+  footer.quiet p { margin: .35rem 0; }
+  footer.quiet a { color: var(--link); text-underline-offset: .15em; }
+  @media (min-width: 720px) {
+    .wrap { padding: 2.25rem 1.25rem 3.5rem; }
+  }
 </style>
 <body>
+<a class="skip" href="#downloadBtn">Skip to download</a>
+<main class="wrap">
+  <header class="hero">
   <div class="brandrow"><img class="brandmark" src="/sigil.png" width="40" height="40" alt="" decoding="async"></div>
   <h1>ChronoLock</h1>
   <p class="motto">Meaning is not only shaped by language, but by when language arrives. Author Aziel Eliab.</p>
-  <p class="banner">THIS IS: timezone-aware linguistic alignment / Temporal Neutral Window (08:30–10:30 local). THIS IS NOT: a scheduler, analytics, user-profiling, influence engineering, virality, a cron that posts. Standalone from TemporalLock. Author Aziel Eliab.</p>
+  <p class="lede">ChronoLock names a Temporal Neutral Window, 08:30–10:30 local, so a release is read. The words stay as written.</p>
+  <a class="btn block primary" id="downloadBtn" href="/download?asset=${DEFAULT_ASSET}">Download</a>
+  <p class="asset-note">One click saves ${DEFAULT_ASSET} from this Worker (HTTP 200). The count includes this tree and any fork that uses the same link.</p>
+  <div class="nums">
+    <p class="count">${v}<span>Views</span></p>
+    <p class="count">${n}<span>Downloads</span></p>
+  </div>
+  <ul class="features">
+    <li>Temporal Neutral Window, 08:30–10:30 local.</li>
+    <li>Five fields: place, local time, local date, language, and dialect.</li>
+    <li>The same text can be staggered so each region falls inside that window.</li>
+  </ul>
+  </header>
   <div id="meshStrip" aria-label="Suite Live Nodes">
     <div class="live"><b id="meshLiveCount">0</b> Live Nodes</div>
     <div id="meshLine">Suite mesh: off (default). QNM-BUILD-1.0. QNS-CD-1.0. Not an anonymity network.</div>
     <div class="rollup">live <b id="qnmLive">0</b> · locked <b id="qnmLocked">0</b> · isolated <b id="qnmIsolated">0</b></div>
     <div>No Node Gate · No auto-heal · Aziel Eliab only</div>
-    <div>
+    <div class="mesh-actions">
       <input id="meshBearer" type="text" maxlength="80" placeholder="bearer (required to enable)" aria-label="mesh bearer">
       <button id="meshEnable" type="button" title="Enable suite mesh. Declared bearer required. Default off.">Enable</button>
       <button id="meshDisable" type="button" title="Disable suite mesh (always allowed)">Disable</button>
@@ -469,17 +584,10 @@ async function indexHtml(env) {
     <p id="meshProducts">Catalog MCP mesh_* · FragGate slug=mesh · /v1/mesh/* PROXY · QNS-CD-1.0 cross-map · not AnonBroadcast · not AZMail ring · not a Node Gate · no public qnsd</p>
   </div>
   <div class="card">
-    <div class="nums">
-      <p class="count">${v}<span>Views</span></p>
-      <p class="count">${n}<span>Downloads</span></p>
-    </div>
-    <p class="kid"><strong>Two big buttons.</strong> Download saves the gzip (the Downloads number goes up). One-click install copies a Terminal command. After it finishes, type <code>chronolock ui</code>.</p>
-    <div class="btns">
-      <a class="btn primary dl" href="/download?asset=${DEFAULT_ASSET}">Download</a>
-      <button type="button" class="btn install" id="install-btn">One-click install</button>
-    </div>
+    <h2>On this computer</h2>
+    <p class="kid">One-click install copies a Terminal command. After it finishes, run <code>chronolock ui</code> and open http://127.0.0.1:8851 on this computer.</p>
+    <button type="button" class="btn install" id="install-btn">One-click install</button>
     <pre id="install-cmd">${INSTALL_LINE}</pre>
-    <p class="kid">Then run: <code>chronolock ui</code> and open http://127.0.0.1:8851 (this computer only).</p>
     <p class="meta">The download count ticks on the Download click. The Worker serves the gzip (HTTP 200). No 302 to GitHub. Forks using this same link are counted automatically. ${DEFAULT_ASSET} — ${n} counted.</p>
     <p class="iso">Isolated counter: Worker <code>chronolock-download-tracker</code>, project <code>${PROJECT}</code>, KV <code>CHRONOLOCK_DOWNLOADS</code>. Not mixed with any other product. /v1 does not increment downloads.</p>
     <p class="meta">GitHub: stars ${gh.stars || 0} · forks ${gh.forks || 0} · watchers ${gh.watchers || 0} · release assets ${gh.release_download_count || 0}</p>
@@ -617,11 +725,13 @@ async function indexHtml(env) {
     </details>
   </div>
 
-<section class="cite" id="cite">
+<footer class="quiet" id="cite">
   <h2>How to cite</h2>
   <p>Aziel Eliab. ChronoLock. https://github.com/AzielEliab/chronolock. https://chronolock-download-tracker.vibelock.workers.dev.</p>
   <p><a href="https://aziel-runtime.vibelock.workers.dev/">Catalog</a> · <a href="https://github.com/AzielEliab/chronolock">GitHub</a> · <a href="https://chronolock-download-tracker.vibelock.workers.dev/download">Download</a> · <a href="https://chronolock-download-tracker.vibelock.workers.dev/cite.json">cite.json</a></p>
-</section>
+  <p>Apache-2.0 · Aziel Eliab · ChronoLock</p>
+</footer>
+</main>
 <!-- /gitbaby-seo -->
 </body>
 </html>`;
