@@ -156,6 +156,56 @@ def test_help_lists_doctor_import_export() -> None:
     assert "export" in text
 
 
+def test_bare_command_welcomes(capsys) -> None:
+    assert main([]) == 0
+    out = capsys.readouterr().out
+    assert "chronolock ui" in out
+    assert "chronolock advise --geo" in out
+    assert "Aziel Eliab" in out
+    assert "arguments are required" not in out.lower()
+
+
+def test_unknown_command_names_a_next_step(capsys) -> None:
+    import pytest
+
+    with pytest.raises(SystemExit) as caught:
+        main(["bogus"])
+    assert caught.value.code == 2
+    err = capsys.readouterr().err
+    assert 'Unknown command "bogus"' in err
+    assert "chronolock --help" in err
+    assert "Traceback" not in err
+
+
+def test_advise_missing_place_names_a_next_step(capsys) -> None:
+    import pytest
+
+    with pytest.raises(SystemExit) as caught:
+        main(["advise"])
+    assert caught.value.code == 2
+    err = capsys.readouterr().err
+    assert "place is required" in err.lower()
+    assert 'chronolock advise --geo "Indiana"' in err
+    assert "Traceback" not in err
+
+
+def test_import_bad_json_names_a_next_step(tmp_path, capsys) -> None:
+    bad = tmp_path / "nope.txt"
+    bad.write_text("not json", encoding="utf-8")
+    assert main(["import", str(bad)]) == 2
+    err = capsys.readouterr().err
+    assert "not JSON" in err
+    assert "Traceback" not in err
+
+
+def test_version_json_shape(capsys) -> None:
+    assert main(["version", "--json"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["name"] == "chronolock"
+    assert payload["version"] == __version__
+    assert payload["author"] == "Aziel Eliab"
+
+
 def test_ui_html_has_simple_import_export_verify() -> None:
     import threading
     import urllib.request
@@ -179,6 +229,14 @@ def test_ui_html_has_simple_import_export_verify() -> None:
         assert payload["author"] == "Aziel Eliab"
         assert "plain" in payload
         assert "does not post" in payload["plain"].lower()
+        assert "Advanced" in html
+        assert "<details" in html
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/style.css", timeout=3) as resp:
+            css = resp.read().decode("utf-8")
+        assert "prefers-color-scheme" in css
+        assert ":focus-visible" in css
+        assert "#c9a227" in css.lower()
+        assert 'content="width=device-width' in html
     finally:
         httpd.shutdown()
         httpd.server_close()

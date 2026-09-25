@@ -1,30 +1,10 @@
 # ChronoLock
 
-Public name of the **Chronolect Layer** (formerly prototyped as StaticClock).
-It names a calm morning time so people read something, not yell about it.
+ChronoLock names a calm morning time (08:30–10:30 local) so people can read what you share.
 
 **Author:** Aziel Eliab
-**Date:** 2026
 **License:** [Apache-2.0](LICENSE)
 **Version:** 0.1.0
-
-> Meaning is not only shaped by language, but by when language arrives.
->
-> The objective is not influence, but legibility.
-
-Time-of-release is a **semantic modifier**. ChronoLock names a
-**Temporal Neutral Window** (08:30–10:30 local). It does **not** change
-wording. It is **not** a scheduler, **not** analytics, **not**
-user-profiling, **not** influence engineering, **not** virality, **not**
-a cron that posts. Advisory hygiene only.
-
-Standalone from [TemporalLock](https://github.com/AzielEliab/temporallock)
-(receipts — a different product; do not merge).
-
-The `staticclock` console script is a **deprecated alias**: it prints one
-line, then runs ChronoLock. StaticClock itself is not deleted.
-
-**Forks are welcome and always allowed.**
 
 ## Quick start (3 steps)
 
@@ -34,19 +14,19 @@ line, then runs ChronoLock. StaticClock itself is not deleted.
    python -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
    ```
 
-2. **Open the local app:**
+2. **Open the local page:**
 
    ```bash
    chronolock ui
    ```
 
-3. **In the browser** at http://127.0.0.1:8851 (this computer only): type a
-   place (like Indiana), tap **Advise**. You will see five things: place,
-   time, date, language, dialect. Optional: **Import JSON**, **Export JSON**,
-   **Verify** (plain words). Simple view is the default. No CDN, no telemetry.
+   The terminal prints `Open http://127.0.0.1:8851/`.
 
-That is the whole start. `chronolock doctor` says the same checks in plain
-words. Port 8765 remains StaticClock.
+3. **Type a place** (for example Indiana) and tap **Advise**. You see place, time, date, language, and dialect.
+
+**Import JSON**, **Export JSON**, and **Verify** are under **Advanced** on that page. `chronolock doctor` runs the same checks in the terminal.
+
+Same three steps are in [RUN.txt](RUN.txt).
 
 ## One-click install
 
@@ -54,97 +34,61 @@ words. Port 8765 remains StaticClock.
 curl -fsSL https://chronolock-download-tracker.vibelock.workers.dev/install.sh | bash
 ```
 
-The script curls the **counted** tarball from this project's Worker
-(`/download`, User-Agent `Mozilla/5.0`), extracts, makes a venv, and
-`pip install -e .`. Then run `chronolock ui`.
+The script downloads the counted tarball (User-Agent `Mozilla/5.0`), extracts it, and runs `pip install -e .`. Then run `chronolock ui`.
 
-Or tap **Download** / **One-click install** on the Worker homepage
-(a 6th-grader can tap it):
-https://chronolock-download-tracker.vibelock.workers.dev/
+Counted tarball: [chronolock-0.1.0.tar.gz](https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz)
+GitHub: [https://github.com/AzielEliab/chronolock](https://github.com/AzielEliab/chronolock)
 
-## Counted download (Cloudflare Worker)
+## Commands
 
-**This is the counted download.** GitHub releases exist as a mirror.
-The Worker serves the gzip itself (HTTP 200, no 302 to GitHub).
-
-- Homepage: [https://chronolock-download-tracker.vibelock.workers.dev/](https://chronolock-download-tracker.vibelock.workers.dev/)
-- Direct tarball: [chronolock-0.1.0.tar.gz](https://chronolock-download-tracker.vibelock.workers.dev/download?asset=chronolock-0.1.0.tar.gz)
-- One-click install: [https://chronolock-download-tracker.vibelock.workers.dev/install.sh](https://chronolock-download-tracker.vibelock.workers.dev/install.sh)
-- Skill: [https://chronolock-download-tracker.vibelock.workers.dev/v1/skill](https://chronolock-download-tracker.vibelock.workers.dev/v1/skill)
-- Suite mesh proxy: [https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh](https://chronolock-download-tracker.vibelock.workers.dev/v1/mesh) — default OFF; QNM live / locked / isolated; QNS-CD-1.0 photon QNS1 packet transfer cross-map (hub cite only; no public qnsd)
-- OpenAPI: [https://chronolock-download-tracker.vibelock.workers.dev/openapi.json](https://chronolock-download-tracker.vibelock.workers.dev/openapi.json)
-- GitHub: [https://github.com/AzielEliab/chronolock](https://github.com/AzielEliab/chronolock)
-
-Isolated counter: Worker `chronolock-download-tracker`, KV `CHRONOLOCK_DOWNLOADS`. `/v1` does not increment downloads.
-
-Paper: [docs/source/chronolect-layer.txt](docs/source/chronolect-layer.txt) · spec: [docs/whitepaper.md](docs/whitepaper.md)
-
-How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md).
-
----
-
-## What it answers
-
-“When should this be released so it is read, not reacted to?”
-
-Input is a last-known geo (free text) or a Top-30 country. Output is
-exactly five fields:
-
-| Field | Meaning |
-|-------|---------|
-| `geo_location_chosen` | One region from a five-basket polarize/shake |
-| `optimal_time` | Local clock time inside the Temporal Neutral Window |
-| `optimal_date` | Local date in the chosen region |
-| `primary_language` | From the static bundled index |
-| `dialect_section` | One of five dialectal variants |
-
-Plain text also names the window **08:30–10:30** local. JSON stays five
-keys. No scores. No confidence. No alternatives. No “because”.
-
-## Chrono-alignment (stagger)
-
-Multi-region publication: **identical** content, different absolute
-times, so each region is inside 08:30–10:30 *local*. This is advice,
-not a job runner.
+People see short text. Add `--json` when a program should read the result.
 
 ```bash
-chronolock stagger --geo "United States" --geo "Japan"
-```
-
-Avoid midnight local, late-night Friday or Sunday, and emotionally
-loaded global sync. Do not use this to provoke urgency.
-
-## CLI
-
-```bash
-chronolock version
-chronolock doctor
-chronolock anchors
-chronolock advise --geo "United States"
+chronolock
+chronolock ui
 chronolock advise --geo "Indiana"
 chronolock advise --geo "United States" --json
+chronolock doctor
+chronolock version
+```
+
+Advanced:
+
+```bash
+chronolock anchors
 chronolock stagger --geo "United States" --geo "Japan"
 chronolock zones
 chronolock import FILE.json
+chronolock import FILE.json --json
 chronolock export FILE.json
-chronolock ui          # 127.0.0.1:8851
-chronolock serve       # alias for ui
+chronolock export FILE.json --json
+chronolock serve       # same as ui
 ```
 
-Deprecated: `staticclock …` prints one deprecation line, then the same commands.
+`import` / `export` keep the file in this run only. They do not write a `.chronolock` store.
 
-`import` / `export` are process memory only. They do not write a
-`.chronolock` store.
+The `staticclock` command is a **deprecated** alias. It prints one line, then runs ChronoLock. StaticClock itself is not deleted. Port 8765 remains StaticClock.
 
-## iPhone & Android
+## What you get
 
-Flutter sources: [`mobile/`](mobile/). Application id `com.azieeliab.chronolock`. Offline. No analytics.
+Ask: “When should this be released so it is read, not reacted to?”
+
+Input is a place (free text) or one of 30 known countries. Text output is five fields, plus the morning window:
+
+| Field | Meaning |
+|-------|---------|
+| `geo_location_chosen` | One region from a five-place basket |
+| `optimal_time` | Local clock time inside 08:30–10:30 |
+| `optimal_date` | Local date in the chosen region |
+| `primary_language` | From the bundled index |
+| `dialect_section` | One of five dialectal variants |
+
+`--json` on `advise` stays those five keys. No scores. No confidence. No alternatives. No “because”.
+
+`stagger` names a morning window for several places. Identical content, different absolute times. It does not post.
 
 ```bash
-cd mobile
-flutter create --org com.azieeliab --project-name chronolock .
-flutter pub get
-flutter run
+chronolock stagger --geo "United States" --geo "Japan"
 ```
 
 ## Library
@@ -159,9 +103,18 @@ with ChronoLock() as clock:
 # forget() ran on exit — nonce and inputs are gone
 ```
 
-v0.1 ships the Top-30 geographic set plus five dialectal variants per
-language. Default Temporal Neutral Window: **08:30–10:30** local.
-Documented overrides (later cultural morning starts): Spain, Argentina, Egypt.
+Version 0.1.0 ships the 30-place set plus five dialectal variants per language. Default morning window: **08:30–10:30** local. Documented later starts: Spain, Argentina, Egypt.
+
+## iPhone & Android
+
+Flutter sources: [`mobile/`](mobile/). Application id `com.azieeliab.chronolock`. Offline.
+
+```bash
+cd mobile
+flutter create --org com.azieeliab --project-name chronolock .
+flutter pub get
+flutter run
+```
 
 ## Tests
 
@@ -172,10 +125,21 @@ python -m pytest -q
 
 Offline. No network. No sqlite. No `.chronolock` store.
 
-## Honest scope
+## About
 
-Not a scheduler. Not analytics. Not user-profiling. Not influence
-engineering. Does not change wording. Timing advice only.
+ChronoLock names a time. It does not change wording. Timing advice only.
+
+Not a scheduler. Not analytics. Not user-profiling. Not influence engineering.
+
+Meaning is not only shaped by language, but by when language arrives. The objective is legibility.
+
+Public name of the Chronolect Layer (formerly prototyped as StaticClock). Standalone from [TemporalLock](https://github.com/AzielEliab/temporallock) (receipts — a different product).
+
+Forks are welcome and always allowed.
+
+Paper: [docs/source/chronolect-layer.txt](docs/source/chronolect-layer.txt) · spec: [docs/whitepaper.md](docs/whitepaper.md)
+
+How to contribute: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Use with ChatGPT, Grok, Venice, Claude, Cursor, Glama, Perplexity, Microsoft Copilot / Bing, Google Gemini / Vertex, Mistral, Meta AI, Apple Intelligence, Amazon Q, DuckAssist, You.com, Cohere, and other MCP/OpenAPI assistants
 
@@ -193,7 +157,6 @@ Import the catalog or Worker OpenAPI as a custom tool, GPT Action (no auth), HTT
 Aziel Eliab. ChronoLock. https://github.com/AzielEliab/chronolock. https://chronolock-download-tracker.vibelock.workers.dev.
 
 - Catalog: https://aziel-runtime.vibelock.workers.dev/
-- Worker homepage: https://chronolock-download-tracker.vibelock.workers.dev/
 - Counted download (gzip HTTP 200, no 302): https://chronolock-download-tracker.vibelock.workers.dev/download
 - GitHub: https://github.com/AzielEliab/chronolock
 - Citation JSON: https://chronolock-download-tracker.vibelock.workers.dev/cite.json

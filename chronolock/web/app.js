@@ -4,8 +4,6 @@
   var go = document.getElementById("go");
   var kid = document.getElementById("kid-plain");
   var verifyLine = document.getElementById("verify-line");
-  var viewSimple = document.getElementById("view-simple");
-  var viewAdvanced = document.getElementById("view-advanced");
   var fields = {
     geo: document.getElementById("out-geo"),
     time: document.getElementById("out-time"),
@@ -14,6 +12,7 @@
     dialect: document.getElementById("out-dialect")
   };
   var lastAdvisory = null;
+  var version = document.body.getAttribute("data-version") || "";
 
   function fill(el, value) {
     el.textContent = value || "—";
@@ -30,16 +29,10 @@
     lastAdvisory = null;
   }
 
-  function setView(simple) {
-    document.body.classList.toggle("simple", simple);
-    viewSimple.classList.toggle("on", simple);
-    viewAdvanced.classList.toggle("on", !simple);
-    viewSimple.setAttribute("aria-pressed", String(simple));
-    viewAdvanced.setAttribute("aria-pressed", String(!simple));
+  function showVerify(text) {
+    verifyLine.hidden = false;
+    verifyLine.textContent = text;
   }
-
-  viewSimple.addEventListener("click", function () { setView(true); });
-  viewAdvanced.addEventListener("click", function () { setView(false); });
 
   fetch("/api/anchors").then(function (r) { return r.json(); }).then(function (names) {
     names.forEach(function (name) {
@@ -48,20 +41,26 @@
       opt.textContent = name;
       anchor.appendChild(opt);
     });
+  }).catch(function () {
+    kid.textContent = "The place list did not load. You can still type a place and tap Advise.";
   });
 
   fetch("/api/zones").then(function (r) { return r.json(); }).then(function (rows) {
-    var body = document.getElementById("zones-body");
-    body.textContent = "";
+    var list = document.getElementById("zones-list");
+    list.textContent = "";
     rows.forEach(function (row) {
-      var tr = document.createElement("tr");
-      ["region", "iana", "local_date", "local_time", "utc_offset"].forEach(function (k) {
-        var td = document.createElement("td");
-        td.textContent = row[k] || "";
-        tr.appendChild(td);
-      });
-      body.appendChild(tr);
+      var li = document.createElement("li");
+      var name = document.createElement("strong");
+      name.textContent = row.region || "";
+      var meta = document.createElement("span");
+      meta.textContent = (row.iana || "") + " · " + (row.local_date || "") + " " + (row.local_time || "") + " · UTC" + (row.utc_offset || "");
+      li.appendChild(name);
+      li.appendChild(meta);
+      list.appendChild(li);
     });
+  }).catch(function () {
+    var status = document.getElementById("zones-status");
+    if (status) status.textContent = "Could not load time zones. Refresh the page and try again.";
   });
 
   document.getElementById("advise-form").addEventListener("submit", function (ev) {
@@ -69,12 +68,23 @@
     var text = (geo.value || "").trim();
     var picked = (anchor.value || "").trim();
     var query = text || picked;
+    if (!query) {
+      kid.textContent = "Type a place, then tap Advise.";
+      geo.focus();
+      return;
+    }
     go.disabled = true;
+    kid.textContent = "Naming a morning time…";
     fetch("/api/advise", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ geo: query })
     }).then(function (r) { return r.json(); }).then(function (adv) {
+      if (!adv || !adv.geo_location_chosen) {
+        clearAdvisory();
+        kid.textContent = "No morning time came back. Type a place and tap Advise again.";
+        return;
+      }
       fill(fields.geo, adv.geo_location_chosen);
       fill(fields.time, adv.optimal_time);
       fill(fields.date, adv.optimal_date);
@@ -83,7 +93,7 @@
       lastAdvisory = {
         product: "ChronoLock",
         author: "Aziel Eliab",
-        version: "0.1.0",
+        version: version,
         geo: query,
         geo_location_chosen: adv.geo_location_chosen,
         optimal_time: adv.optimal_time,
@@ -91,10 +101,10 @@
         primary_language: adv.primary_language,
         dialect_section: adv.dialect_section
       };
-      kid.textContent = "Calm morning time named. Five fields. It did not post.";
+      kid.textContent = "Morning time named. Five fields, for this moment only.";
     }).catch(function () {
       clearAdvisory();
-      kid.textContent = "Could not advise. Type a place and try again.";
+      kid.textContent = "Could not advise. Type a place and tap Advise again.";
     }).finally(function () {
       go.disabled = false;
     });
@@ -118,13 +128,17 @@
       var reader = new FileReader();
       reader.onload = function () {
         try { onObj(JSON.parse(String(reader.result || "{}"))); }
-        catch (e) { kid.textContent = "That file was not JSON."; }
+        catch (e) { kid.textContent = "That file is not JSON. Choose a .json file and try again."; }
       };
       reader.readAsText(f);
     });
   }
 
   bindFileImport("import-json", function (obj) {
+    if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
+      kid.textContent = "That file needs a JSON object. Choose another file and try again.";
+      return;
+    }
     var payload = obj.payload && typeof obj.payload === "object" ? obj.payload : obj;
     var g = payload.geo || payload.geo_location_chosen || obj.geo || "";
     if (g) document.getElementById("geo").value = g;
@@ -134,7 +148,7 @@
     if (payload.primary_language) fill(fields.lang, payload.primary_language);
     if (payload.dialect_section) fill(fields.dialect, payload.dialect_section);
     lastAdvisory = obj;
-    kid.textContent = "Imported JSON. Author stays Aziel Eliab.";
+    kid.textContent = "Imported. Author: Aziel Eliab. Tap Advise for a new morning time.";
   });
 
   var ex = document.getElementById("export-json");
@@ -142,7 +156,7 @@
     var payload = lastAdvisory || {
       product: "ChronoLock",
       author: "Aziel Eliab",
-      version: "0.1.0",
+      version: version,
       geo: (document.getElementById("geo").value || ""),
       geo_location_chosen: document.getElementById("out-geo").textContent,
       optimal_time: document.getElementById("out-time").textContent,
@@ -151,18 +165,24 @@
       dialect_section: document.getElementById("out-dialect").textContent
     };
     downloadJson("chronolock-advisory.json", payload);
-    kid.textContent = "Exported JSON. Share the file, not a hidden store.";
+    kid.textContent = "Exported chronolock-advisory.json.";
   });
 
   var ver = document.getElementById("verify");
   if (ver) ver.addEventListener("click", function () {
+    kid.textContent = "Checking…";
     fetch("/api/doctor").then(function (r) { return r.json(); }).then(function (d) {
-      verifyLine.textContent = d.plain || (d.ok ? "Checks passed." : "Checks failed.");
-      kid.textContent = d.ok
-        ? "Verify: all checks passed. ChronoLock is ready. It does not post."
-        : "Verify: some checks failed.";
+      if (d.ok) {
+        showVerify("All checks passed. ChronoLock is ready.");
+        kid.textContent = "Ready. All checks passed.";
+      } else {
+        var bad = (d.checks || []).filter(function (c) { return !c.ok; }).map(function (c) { return c.name; });
+        showVerify("Some checks failed" + (bad.length ? ": " + bad.join(", ") : "") + ".");
+        kid.textContent = "Some checks failed. Run chronolock doctor in the terminal for the full list.";
+      }
     }).catch(function () {
-      verifyLine.textContent = "Could not verify on this computer.";
+      showVerify("Could not verify on this computer. Try chronolock doctor in the terminal.");
+      kid.textContent = "Could not verify. Try chronolock doctor.";
     });
   });
 })();

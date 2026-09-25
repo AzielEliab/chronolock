@@ -186,6 +186,12 @@ def run_doctor(*, as_json: bool = False) -> int:
         for row in payload["checks"]:
             mark = "ok" if row["ok"] else "FAIL"
             print(f"[{mark}] {row['plain']}")
-        print(payload["plain"])
+        if payload["ok"]:
+            print(
+                "All checks passed. ChronoLock is ready. "
+                "It tells you a calm morning time to share. It does not post."
+            )
+        else:
+            print("Some checks failed. ChronoLock is not ready.")
         print("doctor", "passed" if payload["ok"] else "failed")
     return 0 if payload["ok"] else 1

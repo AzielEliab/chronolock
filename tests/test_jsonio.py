@@ -35,10 +35,10 @@ def test_cli_import_export(tmp_path: Path, monkeypatch, capsys) -> None:
     src = tmp_path / "a.json"
     dest = tmp_path / "b.json"
     src.write_text(json.dumps({"geo": "Japan"}), encoding="utf-8")
-    assert main(["import", str(src)]) == 0
+    assert main(["import", str(src), "--json"]) == 0
     imported = json.loads(capsys.readouterr().out)
     assert imported["ok"] is True
-    assert main(["export", str(dest)]) == 0
+    assert main(["export", str(dest), "--json"]) == 0
     exported = json.loads(capsys.readouterr().out)
     assert exported["ok"] is True
     assert dest.exists()

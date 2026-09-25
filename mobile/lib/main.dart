@@ -162,7 +162,9 @@ class ChronoLockApp extends StatelessWidget {
     return MaterialApp(
       title: 'ChronoLock',
       debugShowCheckedModeBanner: false,
-      theme: buildAppTheme(),
+      theme: buildLightTheme(),
+      darkTheme: buildDarkTheme(),
+      themeMode: ThemeMode.system,
       home: const AdvisePage(),
     );
   }
@@ -176,8 +178,9 @@ class AdvisePage extends StatefulWidget {
 }
 
 class _AdvisePageState extends State<AdvisePage> {
-  final _geo = TextEditingController(text: 'Indiana');
+  final _geo = TextEditingController();
   Advisory? _adv;
+  String _status = 'Type a place, then tap Advise.';
 
   @override
   void dispose() {
@@ -186,6 +189,10 @@ class _AdvisePageState extends State<AdvisePage> {
   }
 
   void _advise() {
+    if (_geo.text.trim().isEmpty) {
+      setState(() => _status = 'Type a place, then tap Advise.');
+      return;
+    }
     final nonce = List<int>.generate(16, (_) => Random.secure().nextInt(256));
     final resolved = resolve(_geo.text);
     final chosenName = shake(resolved.basket, nonce, utf8.encode('geo'));
@@ -199,6 +206,7 @@ class _AdvisePageState extends State<AdvisePage> {
         '${local.year.toString().padLeft(4, '0')}-${local.month.toString().padLeft(2, '0')}-${local.day.toString().padLeft(2, '0')}';
     setState(() {
       _adv = Advisory(chosen.name, time, date, lang, dialect);
+      _status = 'Morning time named. Five fields, for this moment only.';
     });
   }
 
@@ -206,6 +214,7 @@ class _AdvisePageState extends State<AdvisePage> {
     setState(() {
       _adv = null;
       _geo.clear();
+      _status = 'Cleared. Type a place, then tap Advise.';
     });
   }
 
@@ -216,47 +225,91 @@ class _AdvisePageState extends State<AdvisePage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const Text(
-            'Meaning is not only shaped by language, but by when language arrives.',
-            style: TextStyle(color: kGold, fontStyle: FontStyle.italic),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'ChronoLock. Temporal Neutral Window 08:30–10:30 local. '
-            'Not a scheduler. Not targeting. Not virality. Not analytics. '
-            'Does not change wording. Geo → five advisory fields, then it forgets.',
-          ),
+          Text(_status),
           const SizedBox(height: 16),
           TextField(
             controller: _geo,
-            decoration: const InputDecoration(labelText: 'Last-known geo (or Top-30 country)'),
+            textInputAction: TextInputAction.done,
+            decoration: const InputDecoration(
+              labelText: 'Place',
+              hintText: 'Indiana',
+            ),
+            onSubmitted: (_) => _advise(),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              FilledButton(onPressed: _advise, child: const Text('Advise')),
-              const SizedBox(width: 8),
-              OutlinedButton(onPressed: _forget, child: const Text('Forget')),
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(onPressed: _advise, child: const Text('Advise')),
           ),
-          if (_adv != null) ...[
-            const SizedBox(height: 16),
+          const SizedBox(height: 16),
+          if (_adv != null)
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: SelectableText(
-                  [
-                    'geo_location_chosen: ${_adv!.geo}',
-                    'optimal_time: ${_adv!.time}',
-                    'optimal_date: ${_adv!.date}',
-                    'primary_language: ${_adv!.language}',
-                    'dialect_section: ${_adv!.dialect}',
-                  ].join('\n'),
-                  style: const TextStyle(fontFamily: 'monospace', fontSize: 14, height: 1.5),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _row('Chosen place', _adv!.geo),
+                    _row('Local time', _adv!.time),
+                    _row('Local date', _adv!.date),
+                    _row('Language', _adv!.language),
+                    _row('Dialect', _adv!.dialect),
+                    const SizedBox(height: 8),
+                    const Text('Morning window 08:30–10:30 local.'),
+                  ],
                 ),
               ),
+            )
+          else
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Text('Your morning time will show up here.'),
+              ),
             ),
-          ],
+          const SizedBox(height: 8),
+          ExpansionTile(
+            title: const Text('Advanced'),
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton(onPressed: _forget, child: const Text('Clear')),
+              ),
+              const SizedBox(height: 8),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text('Field names: geo_location_chosen, optimal_time, optimal_date, primary_language, dialect_section.'),
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: const Text('About'),
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            children: const [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'ChronoLock names a morning window so people can read what you share. '
+                  'It does not change the words, and it does not post. '
+                  'Author: Aziel Eliab.',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 108, child: Text(label)),
+          Expanded(child: Text(value)),
         ],
       ),
     );
